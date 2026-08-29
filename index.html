@@ -1,1387 +1,188 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>مسابقة الصف الثالث الإعدادي 2026 | الحلبة المعرفية</title>
-<meta name="theme-color" content="#F5B942">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Changa:wght@500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0B0D22; --bg-soft:#161A3F; --bg-card:#1C2050;
-    --gold:#F5B942; --gold-2:#E08E2C; --violet:#8B7CF6;
-    --emerald:#22C99B; --rose:#FB5678; --ink:#F7F5FF; --muted:#9CA3D1;
-  }
-  *{ -webkit-tap-highlight-color: transparent; }
-  html,body{ background:var(--bg); color:var(--ink); font-family:'Cairo',sans-serif; }
-  .font-display{ font-family:'Changa',sans-serif; }
-  body{ user-select:none; -webkit-user-select:none; -moz-user-select:none; }
-  input, textarea{ user-select:text; -webkit-user-select:text; }
-  ::selection{ background:transparent; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="مروان أحمد حسن — Marwan Dev. تطوير مواقع وتطبيقات بخبرة واحتراف."
+    />
+    <title>Marwan Dev | مروان أحمد حسن</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="glow glow-a" aria-hidden="true"></div>
+    <div class="glow glow-b" aria-hidden="true"></div>
 
-  .bg-arena{
-    background-image:
-      radial-gradient(circle at 15% 8%, rgba(139,124,246,.20), transparent 42%),
-      radial-gradient(circle at 92% 18%, rgba(245,185,66,.16), transparent 48%),
-      radial-gradient(circle at 50% 105%, rgba(34,201,155,.12), transparent 50%),
-      radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
-      linear-gradient(180deg, var(--bg), var(--bg));
-    background-size: auto, auto, auto, 26px 26px, auto;
-    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
-    transition: background .6s ease;
-  }
-
-  .card{
-    background:linear-gradient(165deg, var(--bg-card) 0%, var(--bg-soft) 100%);
-    border:1px solid rgba(245,185,66,.14);
-    box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 20px 40px -24px rgba(0,0,0,.6);
-    position:relative;
-  }
-  .card::before{
-    content:''; position:absolute; inset:0 0 auto 0; height:1px; border-radius:inherit;
-    background:linear-gradient(90deg, transparent, rgba(245,185,66,.35), transparent);
-    pointer-events:none;
-  }
-  .hexagon{ clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%); }
-
-  .btn-gold{
-    background:linear-gradient(135deg, var(--gold), var(--gold-2));
-    color:#241505; box-shadow:0 10px 26px -10px rgba(245,185,66,.65), 0 0 0 1px rgba(255,255,255,.08) inset;
-    transition: background .5s ease, transform .12s ease, box-shadow .2s ease;
-    position:relative; overflow:hidden;
-  }
-  .btn-gold:hover:not(:disabled){ box-shadow:0 12px 30px -8px rgba(245,185,66,.75), 0 0 0 1px rgba(255,255,255,.1) inset; }
-  .btn-gold:disabled{ opacity:.45; box-shadow:none; }
-  .btn-gold:active:not(:disabled){ transform:translateY(1px) scale(.99); }
-
-  .btn-ghost{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); transition: background .2s ease, border-color .2s ease; }
-  .btn-ghost:hover{ background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.24); }
-
-  .option-btn{ transition:all .15s ease; border:1.5px solid rgba(255,255,255,.09); cursor:pointer; }
-  .option-btn:hover{ border-color:rgba(245,185,66,.55); background:rgba(245,185,66,.08); transform:translateY(-1px); }
-  .option-correct{ border-color:var(--emerald)!important; background:rgba(34,201,155,.16)!important; box-shadow:0 0 0 1px rgba(34,201,155,.3) inset; }
-  .option-wrong{ border-color:var(--rose)!important; background:rgba(251,86,120,.16)!important; box-shadow:0 0 0 1px rgba(251,86,120,.3) inset; }
-  .hard-tag{ background:rgba(251,86,120,.18); color:var(--rose); border:1px solid rgba(251,86,120,.4); font-weight:700; }
-
-  .screen{ display:none; }
-  .screen.active{ display:block; animation:rise .4s cubic-bezier(.22,1,.36,1); }
-  @keyframes rise{ from{opacity:0; transform:translateY(18px)} to{opacity:1; transform:translateY(0)} }
-
-  .progress-track{ background:rgba(255,255,255,.08); }
-  .progress-fill{ background:linear-gradient(90deg, var(--violet), var(--gold)); transition:width .4s ease; position:relative; overflow:hidden; }
-  .subject-chip{ font-family:'Changa',sans-serif; letter-spacing:.5px; }
-
-  #cheat-overlay,#egg-overlay{ position:fixed; inset:0; z-index:60; display:none; }
-  #cheat-overlay.active,#egg-overlay.active{ display:flex; }
-
-  .medal-glow{ animation:pulse-medal 2.4s ease-in-out infinite; }
-  @keyframes pulse-medal{ 0%,100%{ box-shadow:0 0 0 0 rgba(245,185,66,.4);} 50%{ box-shadow:0 0 0 16px rgba(245,185,66,0);} }
-  @keyframes egg-pop{ 0%{ transform:scale(.6) rotate(-8deg); opacity:0 } 60%{ transform:scale(1.08) rotate(2deg); opacity:1 } 100%{ transform:scale(1) rotate(0); opacity:1 } }
-  .egg-card{ animation: egg-pop .5s ease; }
-  @keyframes sparkle{ 0%,100%{ opacity:.4 } 50%{ opacity:1 } }
-  .sparkle{ animation: sparkle 1.4s ease-in-out infinite; }
-  @media(prefers-reduced-motion: reduce){ *{ animation:none!important; transition:none!important; } }
-  ::-webkit-scrollbar{ width:6px; }
-  ::-webkit-scrollbar-thumb{ background:rgba(245,185,66,.35); border-radius:8px; }
-
-  .lb-row{ display:flex; align-items:center; justify-content:space-between; border:1px solid transparent; transition:border-color .2s ease, background .2s ease; }
-  .lb-row:hover{ border-color:rgba(245,185,66,.25); background:rgba(255,255,255,.07); }
-  .tab-btn{ transition:all .15s ease; }
-  .tab-btn.active{ background:rgba(245,185,66,.18); color:var(--gold); border-color:rgba(245,185,66,.45); box-shadow:0 0 0 1px rgba(245,185,66,.2) inset; }
-
-  /* إضاءة متحركة ديناميكية حوالين الشاشة كلها */
-  body::before{
-    content:'';
-    position:fixed; inset:0;
-    padding:3px;
-    background: conic-gradient(from 0deg, var(--gold), var(--violet), var(--emerald), var(--rose), var(--gold));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    animation: glow-hue 7s linear infinite, glow-pulse 3s ease-in-out infinite;
-    pointer-events:none;
-    z-index:9999;
-  }
-  @keyframes glow-hue{ 0%{ filter:hue-rotate(0deg) saturate(1.3); } 100%{ filter:hue-rotate(360deg) saturate(1.3); } }
-  @keyframes glow-pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:.9; } }
-  @media(prefers-reduced-motion: reduce){ body::before{ display:none; } }
-
-  .glow-text{
-    display:inline-block; padding:4px 14px; border-radius:999px;
-    background: linear-gradient(180deg, var(--bg-card), var(--bg-soft));
-    position:relative; color:var(--ink); font-weight:700; letter-spacing:.5px;
-  }
-  .glow-text::before{
-    content:''; position:absolute; inset:0; border-radius:inherit; padding:1.5px;
-    background: conic-gradient(from 0deg, var(--gold), var(--violet), var(--emerald), var(--rose), var(--gold));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    animation: glow-hue 4s linear infinite;
-  }
-</style>
-</head>
-<body class="bg-arena min-h-screen">
-
-<div id="app" class="min-h-screen flex flex-col items-center px-4 py-6 md:py-10">
-
-  <!-- ===================== WELCOME SCREEN ===================== -->
-  <section id="screen-welcome" class="screen active w-full max-w-lg">
-    <div class="text-center mb-3">
-      <span class="glow-text font-display text-sm tracking-wide">Marwan Dev</span>
-    </div>
-    <div class="text-center mb-6">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs subject-chip text-[var(--gold)] mb-4">
-        منهج 2026 • الصف الثالث الإعدادي • جولة تتجدد كل 10 ساعات
+    <header class="nav">
+      <a class="logo" href="#top">
+        <span class="logo-mark">MD</span>
+        <span class="logo-text" data-ar="مروان ديف" data-en="Marwan Dev">مروان ديف</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#about" data-ar="من أنا" data-en="About">من أنا</a>
+        <a href="#services" data-ar="الخدمات" data-en="Services">الخدمات</a>
+        <a href="#work" data-ar="أعمالي" data-en="Work">أعمالي</a>
+        <a href="#contact" data-ar="تواصل" data-en="Contact">تواصل</a>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="lang-toggle" id="langToggle" aria-label="Switch language">
+          EN
+        </button>
+        <a class="btn btn-sm" href="tel:+201221599078" data-ar="اتصل الآن" data-en="Call now">اتصل الآن</a>
       </div>
-      <h1 class="font-display text-4xl md:text-5xl font-bold leading-tight">الحلبة <span class="text-[var(--gold)]">المعرفية</span></h1>
-      <p class="text-[var(--muted)] mt-3 text-sm md:text-base">30 سؤالاً عشوائياً تماماً في كل محاولة… وسؤال فخ واحد يختبر انتباهك 🕵️</p>
-      <p class="text-xs text-[var(--gold)] mt-2 font-display">⏳ الجولة القادمة بعد: <span id="countdown-timer">--:--:--</span></p>
-    </div>
+    </header>
 
-    <!-- الستريك + الشارات + نصيحة اليوم -->
-    <div id="engagement-card" class="card rounded-2xl p-5 mb-6">
-      <div class="flex items-center justify-between mb-3">
-        <div class="flex items-center gap-2">
-          <span class="text-2xl">🔥</span>
-          <div>
-            <p class="font-display font-bold text-lg text-[var(--gold)]" id="streak-count">0</p>
-            <p class="text-[9px] text-[var(--muted)]">يوم متتالي</p>
+    <main id="top">
+      <section class="hero">
+        <p class="eyebrow" data-ar="مبرمج · مطور ويب · Marwan Dev" data-en="Developer · Web Engineer · Marwan Dev">
+          مبرمج · مطور ويب · Marwan Dev
+        </p>
+        <h1>
+          <span class="name-ar">مروان أحمد حسن</span>
+          <span class="name-en">Marwan Ahmed Hassan</span>
+        </h1>
+        <p class="lede" data-ar="أصمّم وأبني مواقع وتطبيقات سريعة، واضحة، وتخدم هدفك التجاري — من الفكرة حتى الإطلاق." data-en="I design and build fast, clear websites and apps that serve your business — from idea to launch.">
+          أصمّم وأبني مواقع وتطبيقات سريعة، واضحة، وتخدم هدفك التجاري — من الفكرة حتى الإطلاق.
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="https://wa.me/201221599078" target="_blank" rel="noopener noreferrer" data-ar="واتساب" data-en="WhatsApp">واتساب</a>
+          <a class="btn btn-ghost" href="tel:+201221599078" dir="ltr">0122 159 9078</a>
+        </div>
+        <ul class="stats">
+          <li>
+            <strong dir="ltr">5+</strong>
+            <span data-ar="سنوات خبرة" data-en="Years experience">سنوات خبرة</span>
+          </li>
+          <li>
+            <strong dir="ltr">40+</strong>
+            <span data-ar="مشروع مكتمل" data-en="Projects shipped">مشروع مكتمل</span>
+          </li>
+          <li>
+            <strong dir="ltr" data-ar="24س" data-en="24h">24س</strong>
+            <span data-ar="رد سريع" data-en="Fast reply">رد سريع</span>
+          </li>
+        </ul>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-head">
+          <h2 data-ar="من أنا" data-en="About">من أنا</h2>
+          <p data-ar="شغفي تحويل الأفكار إلى منتجات رقمية أنيقة تعمل بكفاءة." data-en="I turn ideas into elegant digital products that actually work.">
+            شغفي تحويل الأفكار إلى منتجات رقمية أنيقة تعمل بكفاءة.
+          </p>
+        </div>
+        <div class="about-grid">
+          <article class="card about-card">
+            <h3 data-ar="أسلوب العمل" data-en="How I work">أسلوب العمل</h3>
+            <p data-ar="أفهم احتياجك أولاً، ثم أصمّم تجربة بسيطة، ثم أبرمج بأكواد نظيفة قابلة للتطوير. التواصل واضح والمواعيد محترمة." data-en="I start with your goal, design a simple experience, then ship clean, maintainable code. Communication is clear and deadlines are kept.">
+              أفهم احتياجك أولاً، ثم أصمّم تجربة بسيطة، ثم أبرمج بأكواد نظيفة قابلة للتطوير. التواصل واضح والمواعيد محترمة.
+            </p>
+          </article>
+          <article class="card about-card">
+            <h3 data-ar="التقنيات" data-en="Stack">التقنيات</h3>
+            <ul class="chips">
+              <li>HTML / CSS</li>
+              <li>JavaScript</li>
+              <li>React</li>
+              <li>Node.js</li>
+              <li>APIs</li>
+              <li>UI/UX</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="services" class="section">
+        <div class="section-head">
+          <h2 data-ar="الخدمات" data-en="Services">الخدمات</h2>
+          <p data-ar="حلول عملية تناسب الشركات الناشئة والأعمال المحلية." data-en="Practical solutions for startups and local businesses.">
+            حلول عملية تناسب الشركات الناشئة والأعمال المحلية.
+          </p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <span class="icon">01</span>
+            <h3 data-ar="صفحات هبوط" data-en="Landing pages">صفحات هبوط</h3>
+            <p data-ar="صفحة واحدة مقنعة تحوّل الزائر إلى عميل، مع تصميم متجاوب وسرعة عالية." data-en="A focused page that turns visitors into clients — responsive, fast, and on-brand.">
+              صفحة واحدة مقنعة تحوّل الزائر إلى عميل، مع تصميم متجاوب وسرعة عالية.
+            </p>
+          </article>
+          <article class="card">
+            <span class="icon">02</span>
+            <h3 data-ar="مواقع الشركات" data-en="Business websites">مواقع الشركات</h3>
+            <p data-ar="موقع كامل يعرّف بخدماتك ويعرض أعمالك وييسّر التواصل معك." data-en="A complete site that explains your services, shows your work, and makes contact easy.">
+              موقع كامل يعرّف بخدماتك ويعرض أعمالك وييسّر التواصل معك.
+            </p>
+          </article>
+          <article class="card">
+            <span class="icon">03</span>
+            <h3 data-ar="تطبيقات ويب" data-en="Web apps">تطبيقات ويب</h3>
+            <p data-ar="لوحات تحكم، أنظمة حجوزات، ولوحات بيانات حسب احتياج مشروعك." data-en="Dashboards, booking systems, and custom tools built around your workflow.">
+              لوحات تحكم، أنظمة حجوزات، ولوحات بيانات حسب احتياج مشروعك.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="work" class="section">
+        <div class="section-head">
+          <h2 data-ar="نماذج أعمال" data-en="Selected work">نماذج أعمال</h2>
+          <p data-ar="أمثلة لأنواع المشاريع التي أنفّذها — يمكن استبدالها بأعمالك الحقيقية." data-en="Examples of the work I ship — swap these for your live case studies.">
+            أمثلة لأنواع المشاريع التي أنفّذها — يمكن استبدالها بأعمالك الحقيقية.
+          </p>
+        </div>
+        <div class="work-grid">
+          <article class="work-card">
+            <div class="work-visual v1"></div>
+            <h3 data-ar="متجر إلكتروني" data-en="E-commerce store">متجر إلكتروني</h3>
+            <p data-ar="تجربة شراء سريعة مع دفع وإدارة منتجات." data-en="Fast checkout with product management.">
+              تجربة شراء سريعة مع دفع وإدارة منتجات.
+            </p>
+          </article>
+          <article class="work-card">
+            <div class="work-visual v2"></div>
+            <h3 data-ar="لوحة أعمال" data-en="Ops dashboard">لوحة أعمال</h3>
+            <p data-ar="متابعة الطلبات والإحصائيات في مكان واحد." data-en="Orders and metrics in one place.">
+              متابعة الطلبات والإحصائيات في مكان واحد.
+            </p>
+          </article>
+          <article class="work-card">
+            <div class="work-visual v3"></div>
+            <h3 data-ar="هوية رقمية" data-en="Brand site">هوية رقمية</h3>
+            <p data-ar="موقع يعكس شخصية العلامة ويولّد ثقة." data-en="A brand site that builds trust.">
+              موقع يعكس شخصية العلامة ويولّد ثقة.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <div class="contact-panel">
+          <h2 data-ar="جاهز نبدأ مشروعك؟" data-en="Ready to start your project?">جاهز نبدأ مشروعك؟</h2>
+          <p data-ar="كلّمني مباشرة على الهاتف أو واتساب — أرد عادة خلال ساعات." data-en="Call or WhatsApp me directly — I usually reply within hours.">
+            كلّمني مباشرة على الهاتف أو واتساب — أرد عادة خلال ساعات.
+          </p>
+          <a class="phone" href="tel:+201221599078" dir="ltr">0122 159 9078</a>
+          <div class="hero-cta">
+            <a class="btn" href="https://wa.me/201221599078" target="_blank" rel="noopener noreferrer" data-ar="راسلني على واتساب" data-en="Message on WhatsApp">راسلني على واتساب</a>
+            <a class="btn btn-ghost" href="tel:+201221599078" data-ar="اتصال" data-en="Call">اتصال</a>
           </div>
         </div>
-        <div id="badges-row" class="flex gap-1.5 flex-wrap justify-end"></div>
-      </div>
-      <div class="bg-black/30 rounded-xl p-3 flex items-start gap-2">
-        <span class="text-lg">💡</span>
-        <p class="text-[11px] text-[var(--muted)] leading-relaxed" id="daily-tip"></p>
-      </div>
-    </div>
-
-    <div id="top-scorer-banner" class="hidden mb-6">
-      <div class="hexagon card medal-glow px-6 py-4 flex items-center gap-4 mx-auto max-w-sm">
-        <div class="text-3xl">🏆</div>
-        <div class="text-right flex-1">
-          <p class="text-[10px] text-[var(--muted)] subject-chip">متصدّر الجولة الحالية</p>
-          <p class="font-display font-bold text-lg text-[var(--gold)]" id="top-scorer-name">—</p>
-          <p class="text-xs text-[var(--muted)]" id="top-scorer-score"></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="card rounded-2xl p-5 mb-6">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="font-display text-sm text-[var(--gold)] flex items-center gap-2">🏅 لوحة الصدارة</h3>
-        <span id="lb-status" class="text-[9px] text-[var(--muted)]"></span>
-      </div>
-      <div class="flex gap-2 mb-3">
-        <button id="lb-tab-today" type="button" class="tab-btn active text-xs px-3 py-1.5 rounded-lg border border-white/10">الجولة الحالية</button>
-        <button id="lb-tab-all" type="button" class="tab-btn text-xs px-3 py-1.5 rounded-lg border border-white/10">كل الأوقات</button>
-      </div>
-      <div id="leaderboard-list" class="space-y-2 max-h-72 overflow-y-auto pl-1"></div>
-      <p id="leaderboard-empty" class="text-center text-[var(--muted)] text-xs py-3">لا توجد نتائج مسجّلة بعد. كن أول من يبدأ التحدي!</p>
-    </div>
-
-    <div id="entry-card" class="card rounded-3xl p-6 md:p-8 shadow-2xl">
-      <label class="block text-sm mb-2 text-[var(--muted)]">الاسم الثلاثي كاملاً</label>
-      <input id="student-name" type="text" placeholder="مثال: أحمد محمد علي"
-        class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-[var(--gold)] transition text-base" />
-      <p id="name-error" class="text-[var(--rose)] text-xs mt-2 hidden"></p>
-
-      <div class="grid grid-cols-3 gap-2 mt-6 mb-2 text-center">
-        <div class="bg-white/5 rounded-lg py-2"><p class="text-[10px] text-[var(--muted)]">عربي • علوم • دراسات</p></div>
-        <div class="bg-white/5 rounded-lg py-2"><p class="text-[10px] text-[var(--muted)]">رياضة • English</p></div>
-        <div class="bg-white/5 rounded-lg py-2"><p class="text-[10px] text-[var(--muted)]">برمجة • AI • دين • ثقافة</p></div>
-      </div>
-      <p class="text-center text-[10px] text-[var(--muted)] mb-1">30 سؤالاً تُسحب عشوائياً بالكامل من 9 مجالات مختلفة</p>
-      <p class="text-center text-[10px] text-[var(--rose)] mb-4">+ سؤال فخ واحد مُخفي يختبر انتباهك 🕵️</p>
-
-      <button id="start-btn" type="button" class="btn-gold w-full rounded-xl py-3.5 font-display font-bold text-lg">ابدأ التحدي الآن 🚀</button>
-      <button id="history-btn" type="button" class="btn-ghost w-full rounded-xl py-2.5 mt-3 text-sm">📜 سجل درجاتي السابقة</button>
-      <button id="flashcards-btn" type="button" class="btn-ghost w-full rounded-xl py-2.5 mt-3 text-sm">🗂️ وضع المراجعة الحرة (Flashcards)</button>
-      <button id="pwa-install-btn" type="button" class="hidden btn-ghost w-full rounded-xl py-2.5 mt-3 text-sm">📲 ثبّت الموقع كتطبيق على جهازك</button>
-      <p class="text-center text-[10px] text-[var(--muted)] mt-3">محاولة واحدة فقط لكل جهاز في كل جولة (10 ساعات).</p>
-    </div>
-
-    <div id="locked-card" class="hidden card rounded-3xl p-8 shadow-2xl text-center border-2 border-[var(--gold)]">
-      <div class="text-5xl mb-3">✋</div>
-      <h3 class="font-display text-xl font-bold text-[var(--gold)] mb-2">انتهت محاولتك لهذه الجولة!</h3>
-      <p class="text-sm text-[var(--muted)] mb-4" id="locked-message"></p>
-      <button id="locked-back-btn" type="button" class="btn-ghost w-full rounded-xl py-2.5 text-sm">رجوع</button>
-    </div>
-
-    <div id="banned-card" class="hidden card rounded-3xl p-8 shadow-2xl text-center border-2 border-[var(--rose)]">
-      <div class="text-5xl mb-3">🚫</div>
-      <h3 class="font-display text-xl font-bold text-[var(--rose)] mb-2">تم حظر هذا الجهاز</h3>
-      <p class="text-sm text-[var(--muted)]">تم منع هذا الجهاز نهائياً من دخول المسابقة بسبب مخالفة قواعد الاستخدام.</p>
-    </div>
-
-    <!-- نبذة عن المطور -->
-    <div class="card rounded-2xl p-5 mt-6 text-center">
-      <h3 class="font-display text-sm text-[var(--gold)] mb-2">👨‍💻 عن مطوّر الموقع</h3>
-      <p class="text-sm font-bold">مروان أحمد حسن (Marwan Dev)</p>
-      <p class="text-[11px] text-[var(--muted)] mt-1 leading-relaxed">
-        طالب في الصف الثالث الإعدادي — مدرسة كفر الحمادية الإعدادية، بركة السبع، المنوفية.
-        مبرمج ويب صاعد مهتم بتطوير التطبيقات وتقنيات الذكاء الاصطناعي وبناء المنصات التفاعلية.
-      </p>
-      <div class="flex items-center justify-center flex-wrap gap-4 mt-3">
-        <a href="https://cane-studio-dev.github.io/my-portfolio-/" target="_blank" rel="noopener" class="text-xs text-[var(--gold)] underline">🔗 البورتفوليو</a>
-        <a href="https://www.facebook.com/share/1CANtg8aBK/" target="_blank" rel="noopener" class="text-xs text-[var(--violet)] underline">📘 فيسبوك</a>
-        <a href="https://cane-studio-dev.github.io/shat/" target="_blank" rel="noopener" class="text-xs text-[var(--emerald)] underline">💬 الدعم واقتراحات تطوير الموقع</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== QUIZ SCREEN ===================== -->
-  <section id="screen-quiz" class="screen w-full max-w-xl">
-    <div class="flex items-center justify-between mb-3">
-      <span id="quiz-subject-chip" class="subject-chip text-xs px-3 py-1 rounded-full bg-[var(--violet)]/20 text-[var(--violet)] border border-[var(--violet)]/30"></span>
-      <span id="quiz-timer" class="font-display text-sm text-[var(--gold)]">15:00</span>
-    </div>
-    <div class="progress-track h-2 rounded-full overflow-hidden mb-1"><div id="progress-fill" class="progress-fill h-full" style="width:3%"></div></div>
-    <p class="text-[11px] text-[var(--muted)] mb-5">السؤال <span id="q-index">1</span> من 30</p>
-    <div class="card rounded-3xl p-6 md:p-8 shadow-2xl">
-      <div class="flex items-start justify-between gap-3 mb-4">
-        <h2 id="question-text" class="font-display text-xl md:text-2xl font-semibold leading-relaxed"></h2>
-        <span id="hard-badge" class="hidden hard-tag text-[10px] px-2 py-1 rounded-full whitespace-nowrap">🔥 صعب</span>
-      </div>
-      <div id="options-container" class="grid grid-cols-1 gap-3"></div>
-    </div>
-    <button id="next-btn" type="button" disabled class="btn-gold w-full rounded-xl py-3.5 font-display font-bold text-lg mt-5">التالي ←</button>
-  </section>
-
-  <!-- ===================== RESULT SCREEN ===================== -->
-  <section id="screen-result" class="screen w-full max-w-lg text-center">
-    <div class="card rounded-3xl p-8 shadow-2xl">
-      <div id="result-emoji" class="text-6xl mb-3">🎉</div>
-      <h2 class="font-display text-2xl font-bold mb-1">أحسنت يا <span id="result-name" class="text-[var(--gold)]"></span>!</h2>
-      <p class="text-[var(--muted)] text-sm mb-6" id="result-sub"></p>
-      <div class="hexagon w-40 h-40 mx-auto card flex flex-col items-center justify-center mb-6">
-        <span class="font-display text-4xl font-bold text-[var(--gold)]" id="result-score">0</span>
-        <span class="text-xs text-[var(--muted)]">من 30</span>
-      </div>
-      <p class="text-xs text-[var(--muted)] mb-4">⏱️ وقت الحل: <span id="result-duration" class="text-[var(--gold)]"></span></p>
-      <button id="restart-btn" type="button" class="btn-gold w-full rounded-xl py-3.5 font-display font-bold">رجوع للصفحة الرئيسية</button>
-      <div class="mt-5 pt-4 border-t border-white/10 text-center">
-        <p class="text-[11px] text-[var(--muted)] mb-2">شكراً لمشاركتك في التحدي! 🌟 لو واجهتك مشكلة في الموقع أو عندك اقتراح لتطويره، إحنا سامعينك.</p>
-        <a href="https://cane-studio-dev.github.io/shat/" target="_blank" rel="noopener" class="text-xs text-[var(--emerald)] underline">💬 كلّمنا في الدعم والاقتراحات</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== PUNISHMENT SCREEN ===================== -->
-  <section id="screen-punish" class="screen w-full max-w-xl">
-    <div class="card rounded-3xl p-6 md:p-8 shadow-2xl border-2 border-[var(--rose)]">
-      <div class="text-center mb-4">
-        <div class="text-5xl mb-2">⛔</div>
-        <h2 class="font-display text-xl font-bold text-[var(--rose)]">تم رصد اسم غير لائق أو وهمي!</h2>
-        <p class="text-xs text-[var(--muted)] mt-2">تم تحويلك تلقائياً لوضع العقاب — كل إجاباتك هنا تُحتسب خطأ إجبارياً، وسيتم حظر جهازك نهائياً بعد الانتهاء.</p>
-      </div>
-      <p class="text-[11px] text-[var(--muted)] mb-3 text-center">سؤال <span id="punish-index">1</span> من <span id="punish-total">5</span></p>
-      <div class="bg-black/30 rounded-2xl p-6 mb-4">
-        <h3 id="punish-question" class="font-display text-lg font-semibold mb-4"></h3>
-        <div id="punish-options" class="grid grid-cols-1 gap-3"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== HISTORY SCREEN ===================== -->
-  <!-- ===================== FLASHCARDS SCREEN ===================== -->
-  <section id="screen-flashcards" class="screen w-full max-w-xl">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="font-display text-xl font-bold text-[var(--gold)]">🗂️ وضع المراجعة الحرة</h2>
-      <select id="fc-subject-select" class="bg-black/30 border border-white/10 rounded-lg px-3 py-1.5 text-xs outline-none">
-        <option value="all">كل المواد</option>
-      </select>
-    </div>
-    <p class="text-[11px] text-[var(--muted)] mb-4">من غير عداد وقت ومن غير تسجيل نتيجة — للمذاكرة الحرة بس. دوس على الكارت عشان تشوف الإجابة.</p>
-    <div id="fc-card" class="card rounded-3xl p-8 shadow-2xl min-h-[220px] flex flex-col items-center justify-center text-center cursor-pointer">
-      <span id="fc-subject-chip" class="subject-chip text-xs px-3 py-1 rounded-full bg-[var(--violet)]/20 text-[var(--violet)] border border-[var(--violet)]/30 mb-4"></span>
-      <p id="fc-question" class="font-display text-lg md:text-xl font-semibold leading-relaxed"></p>
-      <p id="fc-answer" class="hidden mt-5 text-[var(--emerald)] font-display font-bold text-lg"></p>
-      <p id="fc-hint" class="text-[10px] text-[var(--muted)] mt-4">👆 دوس هنا لتظهر الإجابة</p>
-    </div>
-    <p class="text-center text-xs text-[var(--muted)] my-3">بطاقة <span id="fc-index">1</span> من <span id="fc-total">1</span></p>
-    <div class="grid grid-cols-2 gap-3">
-      <button id="fc-prev-btn" type="button" class="btn-ghost rounded-xl py-3 font-bold text-sm">→ السابق</button>
-      <button id="fc-next-btn" type="button" class="btn-gold rounded-xl py-3 font-bold text-sm">التالي ←</button>
-    </div>
-    <button id="fc-back-btn" type="button" class="btn-ghost w-full rounded-xl py-2.5 text-sm mt-3">رجوع للصفحة الرئيسية</button>
-  </section>
-
-  <section id="screen-history" class="screen w-full max-w-lg">
-    <div class="card rounded-3xl p-6 md:p-8 shadow-2xl">
-      <h2 class="font-display text-xl font-bold text-[var(--gold)] mb-4">📜 سجل درجاتي</h2>
-      <input id="history-name-input" type="text" placeholder="اكتب اسمك الثلاثي بالظبط زي ما سجّلته"
-        class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-[var(--gold)] transition text-base mb-3" />
-      <button id="history-search-btn" type="button" class="btn-gold w-full rounded-xl py-2.5 font-bold mb-4">بحث 🔍</button>
-      <div id="history-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
-      <p id="history-empty" class="hidden text-center text-[var(--muted)] text-xs py-4">لا توجد محاولات مسجّلة بهذا الاسم بعد.</p>
-      <button id="history-back-btn" type="button" class="btn-ghost w-full rounded-xl py-2.5 text-sm mt-4">رجوع</button>
-    </div>
-  </section>
-
-  <!-- ===================== ADMIN SCREEN ===================== -->
-  <section id="screen-admin" class="screen w-full max-w-4xl">
-    <div class="flex items-center justify-between mb-5">
-      <h2 class="font-display text-2xl font-bold text-[var(--gold)]">لوحة تحكم المشرف</h2>
-      <button id="admin-refresh" type="button" class="text-xs bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">تحديث ⟳</button>
-    </div>
-    <div class="card rounded-2xl overflow-hidden mb-6">
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm">
-          <thead class="bg-black/30 text-[var(--muted)] text-xs">
-            <tr><th class="p-3 text-right">#</th><th class="p-3 text-right">الاسم</th><th class="p-3 text-right">الدرجة</th><th class="p-3 text-right">الموقع التقريبي</th><th class="p-3 text-right">الجولة</th><th class="p-3 text-right">وقت الحل</th><th class="p-3 text-right">الحالة</th><th class="p-3 text-right">إجراءات</th></tr>
-          </thead>
-          <tbody id="admin-table-body"></tbody>
-        </table>
-      </div>
-    </div>
-    <p id="admin-empty" class="text-center text-[var(--muted)] text-sm mb-6 hidden">لا توجد محاولات مسجّلة بعد.</p>
-    <h3 class="font-display text-lg font-bold text-[var(--rose)] mb-3">🚫 الأجهزة المحظورة</h3>
-    <div class="card rounded-2xl overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm">
-          <thead class="bg-black/30 text-[var(--muted)] text-xs"><tr><th class="p-3 text-right">#</th><th class="p-3 text-right">الاسم المستخدم</th><th class="p-3 text-right">وقت الحظر</th><th class="p-3 text-right">إجراءات</th></tr></thead>
-          <tbody id="banned-table-body"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ===================== CHEAT WARNING OVERLAY ===================== -->
-<div id="cheat-overlay" class="items-center justify-center bg-black/90 backdrop-blur-sm">
-  <div class="card rounded-3xl p-8 max-w-sm mx-4 text-center border-2 border-[var(--rose)]">
-    <div class="text-5xl mb-3">⚠️</div>
-    <h3 class="font-display text-xl font-bold text-[var(--rose)] mb-2">تنبيه هام!</h3>
-    <p id="cheat-message" class="text-sm text-[var(--muted)] mb-5">لاحظنا أنك غادرت شاشة الاختبار. الخروج مرة أخرى سيؤدي لإنهاء المحاولة تلقائياً وإرسال نتيجتك الحالية.</p>
-    <button id="cheat-ack-btn" type="button" class="btn-gold w-full rounded-xl py-2.5 font-bold">فهمت، سأتابع الاختبار</button>
-  </div>
-</div>
-
-<!-- ===================== EASTER EGG OVERLAY ===================== -->
-<div id="egg-overlay" class="items-center justify-center bg-black/90 backdrop-blur-sm">
-  <div class="egg-card card rounded-3xl p-8 max-w-sm mx-4 text-center border-2 border-[var(--gold)]">
-    <div class="text-6xl mb-3 sparkle">🌟</div>
-    <h3 class="font-display text-2xl font-bold text-[var(--gold)] mb-2">أهلاً بك يا ندى..</h3>
-    <p class="text-lg font-display text-[var(--violet)] mb-4">أنتِ الشخصية المنتظرة حقاً! ✨</p>
-    <p class="text-xs text-[var(--muted)] mb-3">اعملي الامتحان الأول، وبعدها انسخي الرسالة دي وابعتيها لمروان في نفس الشات اللي بينكم:</p>
-    <div class="bg-black/30 rounded-xl p-3 text-xs text-[var(--ink)] mb-3 text-right" id="egg-message"></div>
-    <button id="egg-copy-btn" type="button" class="btn-ghost w-full rounded-xl py-2 text-sm mb-3">📋 نسخ الرسالة</button>
-    <button id="egg-ack-btn" type="button" class="btn-gold w-full rounded-xl py-2.5 font-bold">يلا نبدأ 🚀</button>
-  </div>
-</div>
-
-<script>
-/* ==================================================================
-   0) إعداد جسونبن + الجولات
-   ================================================================== */
-const JSONBIN_API_URL  = "https://api.jsonbin.io/v3/b";
-const JSONBIN_BIN_ID   = "6a8a0c92f5f4af5e29367cef";
-const JSONBIN_API_KEY  = "$2a$10$H8YgvYa.7XiLYSdd3W7XaOU.C5adwWP6aZJrZ5oHlEps5rx.P4Ei.";
-const ADMIN_SECRET = "2012";
-const TOTAL_QUESTIONS = 30;
-const EXAM_SECONDS = 15*60;
-const PERIOD_MS = 10*60*60*1000;
-
-function currentPeriodId(){ return Math.floor(Date.now() / PERIOD_MS); }
-function periodEndTime(periodId){ return (periodId+1) * PERIOD_MS; }
-function normalizeName(n){ return (n||'').trim().replace(/\s+/g,' ').toLowerCase(); }
-
-/* ==================================================================
-   1) طبقة اتصال jsonbin.io — {attempts:[...], banned:[...]}
-   ================================================================== */
-function jsonbinConfigured(){ return !JSONBIN_BIN_ID.startsWith('REPLACE_') && !JSONBIN_API_KEY.startsWith('REPLACE_'); }
-async function jsonbinGetData(){
-  if(!jsonbinConfigured()) return { attempts: [], banned: [] };
-  try{
-    const res = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}/latest`, { headers:{ 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta':'false' } });
-    if(!res.ok) throw new Error('get failed');
-    const data = await res.json();
-    return { attempts: Array.isArray(data.attempts)?data.attempts:[], banned: Array.isArray(data.banned)?data.banned:[] };
-  }catch(e){ console.warn('تعذر الاتصال بقاعدة البيانات', e); return { attempts: [], banned: [] }; }
-}
-async function jsonbinSaveData(fullData){
-  if(!jsonbinConfigured()) return false;
-  try{
-    const res = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}`, { method:'PUT', headers:{ 'Content-Type':'application/json', 'X-Master-Key': JSONBIN_API_KEY }, body: JSON.stringify(fullData) });
-    return res.ok;
-  }catch(e){ console.warn('فشل حفظ البيانات', e); return false; }
-}
-async function addAttemptRemote(a){ const d = await jsonbinGetData(); d.attempts.push(a); await jsonbinSaveData(d); }
-async function addBannedRemote(entry){ const d = await jsonbinGetData(); if(!d.banned.some(b=>b.Fingerprint===entry.Fingerprint)) d.banned.push(entry); await jsonbinSaveData(d); }
-
-const LOCAL_LOG_KEY = 'quiz_attempts_log_v6';
-function localGetLog(){ try{ return JSON.parse(localStorage.getItem(LOCAL_LOG_KEY)||'[]'); }catch(e){ return []; } }
-function localAddLog(entry){ const log = localGetLog(); log.push(entry); localStorage.setItem(LOCAL_LOG_KEY, JSON.stringify(log)); }
-function localFindPeriodAttempt(fp, period){ return localGetLog().find(a => a.fp===fp && a.period===period) || null; }
-
-/* ==================================================================
-   2) بصمة الجهاز
-   ================================================================== */
-function simpleHash(str){
-  let h1=0xdeadbeef,h2=0x41c6ce57;
-  for(let i=0;i<str.length;i++){ const ch=str.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
-  h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
-  h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
-  return (4294967296*(2097151&h2)+(h1>>>0)).toString(36);
-}
-function computeFingerprint(){
-  const parts=[];
-  try{
-    parts.push(navigator.userAgent||'', navigator.language||'', screen.width+'x'+screen.height+'x'+screen.colorDepth,
-      (Intl.DateTimeFormat().resolvedOptions().timeZone)||'', navigator.hardwareConcurrency||'', navigator.platform||'');
-    try{ const c=document.createElement('canvas'); const ctx=c.getContext('2d'); ctx.textBaseline='top'; ctx.font="14px 'Arial'"; ctx.fillText('quiz-fp-2026',2,2); parts.push(c.toDataURL()); }catch(e){}
-    try{ const gl=document.createElement('canvas').getContext('webgl'); const dbg=gl&&gl.getExtension('WEBGL_debug_renderer_info'); if(dbg) parts.push(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)); }catch(e){}
-  }catch(e){}
-  return 'fp_' + simpleHash(parts.join('###'));
-}
-function getDeviceFingerprint(){
-  let fp = localStorage.getItem('quiz_device_fp');
-  if(!fp){ fp = computeFingerprint(); localStorage.setItem('quiz_device_fp', fp); }
-  return fp;
-}
-
-/* موقع تقريبي عبر IP فقط (دولة/مدينة) — بدون أي إحداثيات دقيقة */
-async function getApproxLocation(){
-  try{
-    const res = await fetch('https://ipapi.co/json/');
-    if(!res.ok) throw new Error('geo failed');
-    const d = await res.json();
-    return [d.city, d.country_name].filter(Boolean).join(', ') || 'غير معروف';
-  }catch(e){ return 'غير معروف'; }
-}
-
-/* ==================================================================
-   3) فلاتر الاسم — ألفاظ مسيئة (-> عقاب) وأسماء وهمية/تحيات (-> رفض)
-   ================================================================== */
-const BAD_WORDS = [
-  "كسمك","كسمين","منيك","عرص","متناك","خول","شرموط","شرموطة","قحبة","زانية",
-  "ابن الكلب","ابن كلب","نيك","واطي",
-  "fuck","shit","bitch","asshole","nigger","cunt","dick","whore","slut","bastard"
-];
-function normalizeArabicText(s){
-  return (s||'').toLowerCase().replace(/[\u064B-\u0652]/g,'').replace(/[إأآا]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/\s+/g,'').replace(/(.)\1{2,}/g,'$1$1');
-}
-function containsBadWord(name){ const norm = normalizeArabicText(name); return BAD_WORDS.some(w => norm.includes(normalizeArabicText(w))); }
-
-const JUNK_NAME_WORDS = [
-  "هبل","عبيط","غبي","احمق","أحمق","فلان","فلانة","علان","تست","test","اختبار",
-  "لا اعرف","لا أعرف","مجهول","نكرة","وهمي","فاضي","بدون اسم","اسم","xxx","asd","asdf","qwerty",
-  "تجربة","جرب","محدش","عيان","زفت","تخين",
-  "السلام عليكم","سلام عليكم","يلا","اسكت","هه","ههه","هههه","لالا","اهلا وسهلا","اهلا","ازيك","تمام","اوك","ok"
-];
-function validateStudentName(raw){
-  const val = raw.trim().replace(/\s+/g,' ');
-  if(!val) return { ok:false, msg:'يجب كتابة الاسم الثلاثي الصحيح' };
-  if(!/^[\u0621-\u064A\s]+$/.test(val)) return { ok:false, msg:'يُسمح فقط بالحروف العربية — بدون أرقام أو رموز أو إيموجي أو حروف إنجليزية' };
-  const words = val.split(' ').filter(Boolean);
-  if(words.length < 3 || words.some(w => w.length < 2)) return { ok:false, msg:'يجب كتابة الاسم الثلاثي الصحيح' };
-  const totalLetters = val.replace(/\s+/g,'').length;
-  if(totalLetters < 10) return { ok:false, msg:'الاسم قصير جداً — يجب ألا يقل إجمالي الاسم عن 10 أحرف' };
-  const normalized = normalizeArabicText(val);
-  if(JUNK_NAME_WORDS.some(w => normalized.includes(normalizeArabicText(w)))) return { ok:false, msg:'يبدو أن هذا اسم وهمي أو عبارة ترحيب — يرجى كتابة اسمك الثلاثي الحقيقي فقط' };
-  return { ok:true, value: val };
-}
-
-/* الشخصية المنتظرة 🌟 — تُفعَّل لو الاسم فيه أي صيغة من اسم ندى */
-function isSpecialPerson(name){
-  const n = normalizeArabicText(name);
-  const variants = ["ندى", "نداء", "ندي"];
-  return variants.some(v => n.includes(normalizeArabicText(v)));
-}
-
-/* ==================================================================
-   4) تغيير الثيم مع كل فتحة للموقع (عشوائي حقيقي)
-   ================================================================== */
-const THEME_PALETTES = [
-  {gold:'#F5B942', gold2:'#E08E2C'}, {gold:'#5EA8FF', gold2:'#2E6FD9'},
-  {gold:'#22C99B', gold2:'#159873'}, {gold:'#FB5678', gold2:'#C22F4C'}, {gold:'#C084FC', gold2:'#8B5CF6'}
-];
-function applyRandomTheme(){
-  const p = THEME_PALETTES[Math.floor(Math.random()*THEME_PALETTES.length)];
-  document.documentElement.style.setProperty('--gold', p.gold);
-  document.documentElement.style.setProperty('--gold-2', p.gold2);
-}
-
-/* ==================================================================
-   5) بنك الأسئلة + سؤال الفخ
-   ================================================================== */
-const QUESTION_BANK = {
-  arabic: { label:"لغة عربية", items:[
-    { q:"ما نوع الأسلوب في جملة: «ما أجمل السماء!»؟", options:["أسلوب تعجب","أسلوب استفهام","أسلوب نداء","أسلوب أمر"], correct:0 },
-    { q:"علامة إعراب المثنى في حالة الرفع هي:", options:["الألف","الواو","الياء","الضمة"], correct:0 },
-    { q:"«الذين» اسم موصول يُستخدم لـ:", options:["العموم لغير العاقل","جمع المذكر العاقل","المفرد المؤنث","المثنى فقط"], correct:1 },
-    { q:"جمع كلمة «كتاب» هو:", options:["كتب","كتّاب","كاتبون","كتيبات"], correct:0 },
-    { q:"الفعل «يذهبُ» فعل:", options:["ماضٍ","مضارع","أمر","اسم فعل"], correct:1 },
-    { q:"«كأنّ» من أخوات:", options:["إنّ","كان","كاد","ظنّ"], correct:0 },
-    { q:"المفعول به يكون دائماً:", options:["منصوباً","مرفوعاً","مجروراً","مجزوماً"], correct:0 },
-    { q:"الأسلوب الإنشائي يشمل:", options:["الأمر والنهي والاستفهام والتمني","الخبر المؤكد فقط","الجمل الفعلية فقط","الجمل الاسمية فقط"], correct:0 },
-    { q:"«لولا» حرف يفيد:", options:["امتناع لوجود","شرط جازم","نفي","استثناء"], correct:0 },
-    { q:"نوع الخبر في جملة «العلمُ نورٌ»:", options:["مفرد","جملة فعلية","جملة اسمية","شبه جملة"], correct:0 },
-    { q:"الجناس هو تشابه لفظين في:", options:["النطق مع اختلاف المعنى","المعنى فقط","عدد الحروف فقط","الوزن الشعري"], correct:0 },
-    { q:"الاستعارة أحد فنون علم:", options:["البيان","المعاني","العروض","النحو"], correct:0 },
-    { q:"«يا طالبَ العلمِ اجتهدْ» أسلوب:", options:["نداء","تعجب","قسم","شرط"], correct:0 },
-    { q:"علامة نصب جمع المؤنث السالم:", options:["الكسرة","الفتحة","الياء","الألف"], correct:0 },
-    { q:"في جملة «نجح الطالبُ المجتهدُ» الفاعل هو:", options:["الطالبُ","المجتهدُ","نجح","لا يوجد فاعل"], correct:0 },
-    { q:"نوع الفعل «كتبَ» من حيث الزمن:", options:["ماضٍ","مضارع","أمر","اسم فعل"], correct:0 },
-    { q:"جمع كلمة «معلم» جمع مذكر سالم هو:", options:["معلمون","معلمات","معالم","معلمين فقط"], correct:0 },
-    { q:"الأصل في الفعل المضارع أن يكون معرباً إلا إذا اتصلت به:", options:["نون النسوة أو نون التوكيد","تاء التأنيث","ياء المخاطبة فقط","لا شيء مما سبق"], correct:0 },
-    { q:"«ربّ رجلٍ كريمٍ لقيته» ربّ هنا حرف:", options:["جر يفيد التقليل أو التكثير","نصب","جزم","عطف"], correct:0 },
-    { q:"علامة جزم الفعل المضارع الصحيح الآخر:", options:["السكون","الفتحة","الضمة","حذف النون"], correct:0 },
-    { q:"نوع الأسلوب في: «هل حضر الطالب؟»", options:["استفهام","نداء","تعجب","أمر"], correct:0 },
-    { q:"الفعل الذي يدل على طلب حدوث الفعل يسمى:", options:["فعل أمر","فعل ماضٍ","فعل مضارع","اسم فعل"], correct:0 },
-    { q:"«نعمَ» و«بئسَ» من أفعال:", options:["المدح والذم","الشروع","المقاربة","الرجاء"], correct:0 },
-    { q:"«كاد» و«أوشك» من أخوات:", options:["كان (أفعال المقاربة)","إنّ","ظنّ","لا النافية للجنس"], correct:0 },
-    { q:"الحال يأتي غالباً:", options:["منصوباً ويبيّن هيئة صاحبه","مرفوعاً دائماً","مجروراً دائماً","مبنياً دائماً"], correct:0 },
-    { q:"التمييز هو اسم نكرة منصوب يفسّر:", options:["إبهام ما قبله","معنى الجملة كلها","الفاعل فقط","المبتدأ فقط"], correct:0 },
-    { q:"«ما» في «ما قرأتُ إلا كتاباً» تفيد:", options:["النفي مع أسلوب استثناء (قصر)","الاستفهام","الشرط","التعجب"], correct:0 },
-    { q:"العدد «ثلاثة» مع المعدود المذكر يكون:", options:["مؤنثاً (ثلاثة رجال)","مذكراً (ثلاث رجال)","لا يتغير أبداً","يُحذف العدد"], correct:0 },
-    { q:"«إنّ في ذلك لعبرة» اللام في «لعبرة» تسمى:", options:["اللام المزحلقة","لام الأمر","لام الجحود","لام التعليل"], correct:0 },
-    { q:"نوع «كي» في «ذاكرتُ كي أنجح»:", options:["حرف مصدري ونصب يفيد التعليل","حرف جر","حرف عطف","حرف استفهام"], correct:0 },
-    { q:"همزة الوصل تُنطق ولا تُكتب إلا في:", options:["أول الكلام فقط","وسط الكلام دائماً","آخر الكلام دائماً","لا تُنطق أبداً"], correct:0 },
-    { q:"أيّ الأسماء التالية ممنوع من الصرف؟", options:["أحمدُ","محمدٌ","رجلٌ","كتابٌ"], correct:0 }
-  ]},
-  science: { label:"علوم", items:[
-    { q:"وحدة قياس القوة في النظام الدولي هي:", options:["نيوتن","جول","واط","باسكال"], correct:0 },
-    { q:"الرمز Na يمثل عنصر:", options:["الصوديوم","النيتروجين","النيكل","النحاس"], correct:0 },
-    { q:"جهاز قياس شدة التيار الكهربائي:", options:["الأميتر","الفولتميتر","الأوميتر","الباروميتر"], correct:0 },
-    { q:"عملية البناء الضوئي تحدث داخل:", options:["البلاستيدات الخضراء","الميتوكوندريا","النواة","الريبوسومات"], correct:0 },
-    { q:"عدد الكروموسومات في الخلية الجسدية للإنسان:", options:["46","23","44","48"], correct:0 },
-    { q:"الغاز الرئيسي المسبب لظاهرة الاحتباس الحراري:", options:["ثاني أكسيد الكربون","الأكسجين","النيتروجين","الهيليوم"], correct:0 },
-    { q:"«لكل فعل رد فعل مساوٍ له في المقدار ومضاد في الاتجاه» هو نص قانون:", options:["نيوتن الثالث","نيوتن الأول","بويل","أوم"], correct:0 },
-    { q:"الجزيء المسؤول عن نقل الصفات الوراثية:", options:["DNA","ATP","الجلوكوز","الدهون"], correct:0 },
-    { q:"حالة المادة التي لها شكل وحجم ثابتان:", options:["الصلبة","السائلة","الغازية","البلازمية"], correct:0 },
-    { q:"العضو المسؤول عن ضخ الدم في جسم الإنسان:", options:["القلب","الكبد","الرئة","الكلية"], correct:0 },
-    { q:"وحدة قياس الطاقة هي:", options:["الجول","النيوتن","الأمبير","المتر"], correct:0 },
-    { q:"العدد الذري لعنصر الهيدروجين هو:", options:["1","2","8","6"], correct:0 },
-    { q:"الأوعية التي تحمل الدم من القلب إلى أعضاء الجسم:", options:["الشرايين","الأوردة","الشعيرات الدموية فقط","لا شيء مما سبق"], correct:0 },
-    { q:"من مصادر الطاقة المتجددة:", options:["الطاقة الشمسية","الفحم","البترول","الغاز الطبيعي"], correct:0 },
-    { q:"انتقال الحرارة عبر الفراغ يسمى:", options:["الإشعاع","التوصيل","الحمل","الانصهار"], correct:0 },
-    { q:"أكبر كوكب في المجموعة الشمسية هو:", options:["المشتري","زحل","الأرض","المريخ"], correct:0 },
-    { q:"الوحدة الأساسية لبناء جسم الكائن الحي هي:", options:["الخلية","الأنسجة","الأعضاء","الذرة"], correct:0 },
-    { q:"غاز الأكسجين ضروري لعملية:", options:["التنفس","البناء الضوئي فقط","الهضم فقط","الإخراج فقط"], correct:0 },
-    { q:"سرعة الضوء في الفراغ تُقدَّر تقريباً بـ:", options:["300000 كم/ث","300 كم/ث","3000 كم/ث","30000000 كم/ث"], correct:0 },
-    { q:"المغناطيس له قطبان هما:", options:["الشمالي والجنوبي","الشرقي والغربي","العلوي والسفلي","الأمامي والخلفي"], correct:0 },
-    { q:"غاز ثاني أكسيد الكربون تستهلكه النباتات في:", options:["البناء الضوئي","التنفس فقط","الإخراج","الهضم"], correct:0 },
-    { q:"أخف العناصر وأكثرها انتشاراً في الكون هو:", options:["الهيدروجين","الأكسجين","الكربون","النيتروجين"], correct:0 },
-    { q:"جهاز الدوران في جسم الإنسان مسؤول عن:", options:["نقل الدم والأكسجين لخلايا الجسم","الهضم فقط","التنفس فقط","التفكير"], correct:0 },
-    { q:"العضو المسؤول عن تنقية الدم من الفضلات في جسم الإنسان:", options:["الكلية","المعدة","الرئة","الطحال"], correct:0 },
-    { q:"وحدة قياس الضغط الجوي هي:", options:["الباسكال","النيوتن","الجول","الأمبير"], correct:0 },
-    { q:"الحمض النووي الريبوزي منقوص الأكسجين اختصاره:", options:["DNA","RNA","ATP","PH"], correct:0 },
-    { q:"عملية انتقال حبوب اللقاح من المتك إلى الميسم تسمى:", options:["التلقيح","الإخصاب","الإنبات","التبخر"], correct:0 },
-    { q:"غاز النيتروجين يمثل تقريباً من الهواء الجوي نسبة:", options:["78%","21%","1%","50%"], correct:0 },
-    { q:"الفلزات بشكل عام موصلات جيدة لـ:", options:["الكهرباء والحرارة","العزل فقط","الصوت فقط","الضوء فقط"], correct:0 },
-    { q:"عملية تحول الماء من الحالة السائلة إلى الغازية تسمى:", options:["التبخر","التكثف","الانصهار","التجمد"], correct:0 },
-    { q:"الرئتان هما العضو الرئيسي في جهاز:", options:["التنفس","الهضم","الإخراج","الدوران"], correct:0 },
-    { q:"ما نوع الرابطة الكيميائية بين ذرات الصوديوم والكلور في ملح الطعام؟", options:["رابطة أيونية","رابطة تساهمية","رابطة فلزية","رابطة هيدروجينية"], correct:0 }
-  ]},
-  social: { label:"دراسات", items:[
-    { q:"تقع مصر بشكل أساسي في قارة:", options:["أفريقيا","آسيا","أوروبا","أمريكا"], correct:0 },
-    { q:"نهر النيل يصب في:", options:["البحر المتوسط","البحر الأحمر","المحيط الأطلسي","الخليج العربي"], correct:0 },
-    { q:"العاصمة الإدارية الجديدة لمصر تقع شرق:", options:["القاهرة","الإسكندرية","أسوان","سيناء"], correct:0 },
-    { q:"قامت ثورة 23 يوليو في عام:", options:["1952","1919","1973","1936"], correct:0 },
-    { q:"وقعت حرب أكتوبر المجيدة في عام:", options:["1973","1967","1956","1948"], correct:0 },
-    { q:"من أهم الموارد الاقتصادية الاستراتيجية لمصر:", options:["قناة السويس","الغابات الاستوائية","الثلوج الدائمة","المحيطات"], correct:0 },
-    { q:"أكبر قارات العالم مساحةً:", options:["آسيا","أفريقيا","أوروبا","أستراليا"], correct:0 },
-    { q:"خط الاستواء يمر تقريباً بـ:", options:["وسط الكرة الأرضية","القطب الشمالي","القطب الجنوبي","لا شيء مما سبق"], correct:0 },
-    { q:"من أهم عوامل قيام الحضارة المصرية القديمة:", options:["نهر النيل","المناخ القطبي","الصحراء وحدها","لا شيء مما سبق"], correct:0 },
-    { q:"وُقّعت معاهدة السلام المصرية الإسرائيلية عام:", options:["1979","1973","1967","1990"], correct:0 },
-    { q:"يقع الهرم الأكبر في منطقة:", options:["الجيزة","الأقصر","أسوان","الإسكندرية"], correct:0 },
-    { q:"من الدول التي تشترك مع مصر في نهر النيل:", options:["السودان","ليبيا","تونس","الجزائر"], correct:0 },
-    { q:"المناخ السائد في معظم أراضي مصر هو مناخ:", options:["صحراوي جاف","استوائي ممطر","قطبي بارد","معتدل ماطر"], correct:0 },
-    { q:"شبه جزيرة سيناء تقع في قارة:", options:["آسيا","أفريقيا","أوروبا","أستراليا"], correct:0 },
-    { q:"من أهم الممرات الملاحية الدولية التي تملكها مصر:", options:["قناة السويس","مضيق جبل طارق","قناة بنما","مضيق ماجلان"], correct:0 },
-    { q:"أشهر آثار الحضارة الفرعونية المسجلة ضمن عجائب الدنيا السبع القديمة:", options:["الهرم الأكبر بالجيزة","برج إيفل","سور الصين العظيم","تاج محل"], correct:0 },
-    { q:"أكبر الصحاري في العالم من حيث المساحة:", options:["الصحراء الكبرى","صحراء جوبي","صحراء كالاهاري","صحراء أستراليا"], correct:0 },
-    { q:"أطول سلسلة جبال في العالم هي:", options:["جبال الأنديز","جبال الألب","جبال الهيمالايا","جبال الأورال"], correct:0 },
-    { q:"من أهم المحاصيل الزراعية التصديرية لمصر:", options:["القطن","القمح فقط","الأرز فقط","الذرة فقط"], correct:0 },
-    { q:"عاصمة المملكة العربية السعودية:", options:["الرياض","جدة","مكة المكرمة","الدمام"], correct:0 },
-    { q:"أكبر دولة في العالم من حيث المساحة:", options:["روسيا","الصين","كندا","الولايات المتحدة"], correct:0 },
-    { q:"المسافة بين خطي طول متتاليين تُقاس بوحدة:", options:["الدرجة","الكيلومتر فقط","الميل فقط","المتر فقط"], correct:0 },
-    { q:"من أهم الموانئ المصرية على البحر المتوسط:", options:["ميناء الإسكندرية","ميناء جدة","ميناء دبي","ميناء بيروت"], correct:0 },
-    { q:"يُطلق على مصر لقب:", options:["هبة النيل","أرض الرافدين","بلاد الشام","جزيرة العرب"], correct:0 },
-    { q:"أكبر بحيرة في مصر هي:", options:["بحيرة ناصر","بحيرة قارون","بحيرة البردويل","بحيرة المنزلة"], correct:0 },
-    { q:"من أهم صناعات مصر الاستراتيجية:", options:["الصناعات النسيجية والغزل","صناعة الثلج فقط","صناعة الألعاب فقط","لا شيء مما سبق"], correct:0 },
-    { q:"عدد محافظات جمهورية مصر العربية تقريباً:", options:["27 محافظة","10 محافظات","50 محافظة","15 محافظة"], correct:0 },
-    { q:"السد العالي بأسوان أُنشئ للتحكم في:", options:["مياه فيضان نهر النيل","الرياح","الزلازل","درجة الحرارة"], correct:0 },
-    { q:"من أهم مضايق العالم من الناحية الاستراتيجية:", options:["مضيق باب المندب","مضيق بيرينج","مضيق ماجلان","لا شيء مما سبق"], correct:0 },
-    { q:"القارة التي يقع فيها أكبر عدد من الدول العربية:", options:["أفريقيا","آسيا","أوروبا","أمريكا الجنوبية"], correct:0 },
-    { q:"من أشهر المعابد المصرية القديمة:", options:["معبد الكرنك","معبد أبولو","معبد بارثينون","معبد أنجكور وات"], correct:0 },
-    { q:"في أي عصر تم بناء الأهرامات الثلاثة الكبرى بالجيزة؟", options:["الدولة القديمة","الدولة الوسطى","الدولة الحديثة","العصر البطلمي"], correct:0 }
-  ]},
-  math: { label:"رياضيات", items:[
-    { q:"ناتج فك (2س + 3)(س − 1) هو:", options:["2س² + س − 3","2س² − س + 3","2س² + 5س −3","س² + س − 3"], correct:0 },
-    { q:"مجموع زوايا المثلث يساوي:", options:["180°","360°","90°","270°"], correct:0 },
-    { q:"نظرية فيثاغورث تُطبَّق على:", options:["المثلث قائم الزاوية","المثلث متساوي الأضلاع","الدائرة","المربع فقط"], correct:0 },
-    { q:"حل المعادلة: س + 5 = 12 هو:", options:["س = 7","س = 17","س = 5","س = 12"], correct:0 },
-    { q:"مساحة الدائرة تساوي:", options:["π × نق²","2π × نق","π × القطر","نق²"], correct:0 },
-    { q:"العدد الذي إذا ضُرب في نفسه ساوى 49 هو:", options:["7","6","8","9"], correct:0 },
-    { q:"مجموع زوايا الشكل الرباعي يساوي:", options:["360°","180°","270°","90°"], correct:0 },
-    { q:"ناتج جمع الكسرين ½ + ⅓ هو:", options:["5/6","2/5","1/6","3/5"], correct:0 },
-    { q:"المعادلة من الدرجة الثانية تُسمى معادلة:", options:["تربيعية","خطية","تكعيبية","أسية"], correct:0 },
-    { q:"طول ضلع مربع مساحته 64 سم² هو:", options:["8 سم","16 سم","32 سم","4 سم"], correct:0 },
-    { q:"العدد الأولي من بين الأعداد التالية:", options:["13","15","21","9"], correct:0 },
-    { q:"ميل الخط المستقيم y = 2x + 3 يساوي:", options:["2","3","−2","1"], correct:0 },
-    { q:"حجم مكعب طول ضلعه 3 سم يساوي:", options:["27 سم³","9 سم³","18 سم³","6 سم³"], correct:0 },
-    { q:"الزاوية التي قياسها بين 90° و180° تُسمى:", options:["منفرجة","حادة","قائمة","مستقيمة"], correct:0 },
-    { q:"ناتج (−3) × (−4) يساوي:", options:["12","−12","7","−7"], correct:0 },
-    { q:"ناتج جذر العدد 81 هو:", options:["9","8","7","10"], correct:0 },
-    { q:"محيط المستطيل يساوي:", options:["2×(الطول+العرض)","الطول×العرض","الطول+العرض","نصف الطول×العرض"], correct:0 },
-    { q:"العدد 0 يُعتبر:", options:["عدداً صحيحاً وليس أولياً","عدداً أولياً","عدداً كسرياً","لا شيء مما سبق"], correct:0 },
-    { q:"نسبة 25% تساوي كسراً عادياً:", options:["1/4","1/2","3/4","1/5"], correct:0 },
-    { q:"قيمة س في المعادلة 3س=15 هي:", options:["5","3","15","45"], correct:0 },
-    { q:"الزاوية القائمة تساوي:", options:["90°","180°","45°","60°"], correct:0 },
-    { q:"ناتج (5)² هو:", options:["25","10","15","20"], correct:0 },
-    { q:"متوسط العددين 10 و20 هو:", options:["15","10","20","30"], correct:0 },
-    { q:"ناتج تحويل الكسر 3/4 إلى نسبة مئوية هو:", options:["75%","34%","43%","57%"], correct:0 },
-    { q:"مساحة المثلث تساوي:", options:["½ × القاعدة × الارتفاع","القاعدة × الارتفاع","2 × القاعدة × الارتفاع","القاعدة + الارتفاع"], correct:0 },
-    { q:"العدد المقابل للعدد -7 على خط الأعداد هو:", options:["7","-7","0","14"], correct:0 },
-    { q:"حل المتباينة: س + 3 > 8 هو:", options:["س > 5","س < 5","س = 5","س ≥ 8"], correct:0 },
-    { q:"ناتج (2/3) + (1/3) يساوي:", options:["1","2/6","3/3","2/3"], correct:0 },
-    { q:"عدد أضلاع الشكل السداسي هو:", options:["6","5","7","8"], correct:0 },
-    { q:"إذا كان طول المستطيل 8 سم وعرضه 5 سم، فمساحته:", options:["40 سم²","13 سم²","26 سم²","20 سم²"], correct:0 },
-    { q:"ناتج 10³ (10 أس 3) يساوي:", options:["1000","100","30","10000"], correct:0 },
-    { q:"إذا كان س² − 5س + 6 = 0، فإن قيمتي س هما:", options:["2 , 3","1 , 6","−2 , −3","5 , 6"], correct:0 }
-  ]},
-  english: { label:"English", items:[
-    { q:"Choose the correct verb: \"She ___ to school every day.\"", options:["goes","go","going","gone"], correct:0 },
-    { q:"The opposite of \"difficult\" is:", options:["easy","hard","complex","strong"], correct:0 },
-    { q:"The past tense of \"write\" is:", options:["wrote","writed","writen","writting"], correct:0 },
-    { q:"Choose the correct sentence:", options:["He doesn't like coffee.","He don't likes coffee.","He not like coffee.","He isn't like coffee."], correct:0 },
-    { q:"\"Although it was raining, we went out.\" — 'Although' shows:", options:["contrast","reason","result","time"], correct:0 },
-    { q:"The plural of \"child\" is:", options:["children","childs","childes","child"], correct:0 },
-    { q:"Choose the correct preposition: \"She is interested ___ music.\"", options:["in","on","at","for"], correct:0 },
-    { q:"A synonym of \"happy\" is:", options:["joyful","sad","angry","tired"], correct:0 },
-    { q:"\"I have ___ finished my homework.\"", options:["already","yesterday","ago","last"], correct:0 },
-    { q:"Choose the correct comparative: \"This book is ___ than that one.\"", options:["more interesting","most interesting","interesting","interestinger"], correct:0 },
-    { q:"The passive voice of \"They built the house\" is:", options:["The house was built by them.","The house built by them.","They was built the house.","The house is build by them."], correct:0 },
-    { q:"Choose the correct question tag: \"You like tea, ___?\"", options:["don't you","do you","aren't you","isn't it"], correct:0 },
-    { q:"\"If I ___ rich, I would travel the world.\"", options:["were","was","am","be"], correct:0 },
-    { q:"Which of the following is a noun?", options:["happiness","quickly","beautiful","run"], correct:0 },
-    { q:"Choose the correct spelling:", options:["necessary","neccessary","necesary","neccesary"], correct:0 },
-    { q:"Choose the correct article: \"___ apple a day keeps the doctor away.\"", options:["An","A","The","No article"], correct:0 },
-    { q:"The superlative form of \"good\" is:", options:["best","gooder","more good","goodest"], correct:0 },
-    { q:"Which word means the same as \"begin\"?", options:["start","end","stop","finish"], correct:0 },
-    { q:"Choose the correct sentence:", options:["She has been studying for two hours.","She has being studying for two hours.","She have been studying for two hours.","She has been study for two hours."], correct:0 },
-    { q:"The word \"quickly\" is a/an:", options:["adverb","adjective","noun","verb"], correct:0 },
-    { q:"Choose the correct past participle of \"go\":", options:["gone","went","going","goed"], correct:0 },
-    { q:"\"Neither of the students ___ present.\"", options:["is","are","were","have"], correct:0 },
-    { q:"Choose the correct indirect question: \"Could you tell me ___?\"", options:["where the station is","where is the station","where the station was is","where does the station is"], correct:0 },
-    { q:"Choose the correct modal: \"You ___ see a doctor if you feel sick.\"", options:["should","can not","must not","would"], correct:0 },
-    { q:"The opposite of \"expensive\" is:", options:["cheap","costly","rich","poor"], correct:0 },
-    { q:"Choose the correct sentence:", options:["I have lived here since 2015.","I have lived here for 2015.","I lived here since 2015.","I am living here since 2015 ago."], correct:0 },
-    { q:"Which is a correct relative clause?", options:["The man who called you is my uncle.","The man which called you is my uncle.","The man whom called you is my uncle.","The man whose called you is my uncle."], correct:0 },
-    { q:"Choose the correct word order: \"She always ___ breakfast early.\"", options:["has","have","having","had have"], correct:0 },
-    { q:"\"Despite ___ hard, he failed the exam.\"", options:["studying","study","studied","to study"], correct:0 },
-    { q:"Choose the correct plural: \"one mouse, two ___.\"", options:["mice","mouses","mices","mouse"], correct:0 },
-    { q:"The word \"generous\" means someone who is:", options:["willing to give freely","angry often","very quiet","always late"], correct:0 },
-    { q:"Which sentence uses the third conditional correctly?", options:["If I had studied, I would have passed.","If I study, I would have passed.","If I had studied, I will pass.","If I studied, I would have pass."], correct:0 }
-  ]}
-};
-
-QUESTION_BANK.programming = { label:"برمجة", items:[
-  { q:"ما ناتج تنفيذ الكود: for(let i=0;i<3;i++){console.log(i)} ؟", options:["0 1 2","1 2 3","0 1 2 3","خطأ في الكود"], correct:0 },
-  { q:"أي لغة تُستخدم أساساً لتنسيق شكل صفحات الويب؟", options:["CSS","Python","C++","SQL"], correct:0 },
-  { q:"ما وظيفة حلقة while في البرمجة؟", options:["تكرار تنفيذ كود طالما الشرط صحيح","تخزين البيانات فقط","طباعة نص واحد فقط","إيقاف البرنامج"], correct:0 },
-  { q:"أي مما يلي نوع بيانات في JavaScript؟", options:["Boolean","HTML","CSS","Browser"], correct:0 },
-  { q:"ما اختصار HTML؟", options:["HyperText Markup Language","High Tech Modern Language","Home Tool Markup Language","Hyper Transfer Machine Language"], correct:0 },
-  { q:"ماذا تفعل الدالة (Function) في البرمجة؟", options:["تنفّذ مجموعة أوامر يمكن استدعاؤها بتكرار","تخزن الصور فقط","تصمم الألوان","لا تفعل شيئاً"], correct:0 },
-  { q:"أي رمز يُستخدم للتعليقات في JavaScript على سطر واحد؟", options:["//","<!-- -->","#","**"], correct:0 },
-  { q:"ما هو المتغيّر (Variable) في البرمجة؟", options:["مكان لتخزين قيمة يمكن تغييرها","صورة ثابتة","لون الخلفية","اسم الموقع"], correct:0 },
-  { q:"أي مما يلي يُعتبر لغة ترميز (Markup) وليس لغة برمجة؟", options:["HTML","Python","Java","C++"], correct:0 },
-  { q:"خوارزمية الفرز (Sorting) تُستخدم من أجل:", options:["ترتيب مجموعة من العناصر","حذف البيانات","تلوين الصفحة","تشغيل الصوت"], correct:0 },
-  { q:"أي مما يلي مثال على متغيّر منطقي (Boolean)؟", options:["true / false","اسم المستخدم","رقم الهاتف","لون الخلفية"], correct:0 },
-  { q:"ما وظيفة حلقة for في البرمجة؟", options:["تكرار كود عدد محدد من المرات","تخزين نص فقط","رسم الأشكال فقط","تشغيل الموسيقى"], correct:0 },
-  { q:"ما اسم قاعدة البيانات التي تخزن البيانات في صفوف وأعمدة؟", options:["قاعدة بيانات علائقية (SQL)","صورة","فيديو","ملف نصي فقط"], correct:0 },
-  { q:"أي امتداد ملف يُستخدم لملفات جافاسكريبت؟", options:[".js",".css",".html",".png"], correct:0 },
-  { q:"ما معنى الاختصار API؟", options:["Application Programming Interface","Automatic Program Installer","Applied Programming Instruction","Advanced Page Index"], correct:0 },
-  { q:"ما هي وظيفة الشرط (if) في البرمجة؟", options:["تنفيذ كود معيّن إذا تحقق شرط معيّن","تكرار الكود دائماً","إيقاف البرنامج فوراً","لا شيء مما سبق"], correct:0 }
-]};
-QUESTION_BANK.ai = { label:"ذكاء اصطناعي", items:[
-  { q:"الذكاء الاصطناعي (AI) هو مجال يهتم بـ:", options:["جعل الآلات تحاكي التفكير البشري","تصنيع الأجهزة الكهربائية فقط","طباعة الكتب","رسم الصور اليدوية"], correct:0 },
-  { q:"ما اسم نوع النماذج المستخدمة في تطبيقات مثل ChatGPT؟", options:["نموذج لغوي كبير (LLM)","محرك بحث تقليدي","برنامج جداول بيانات","نظام تشغيل"], correct:0 },
-  { q:"التعلّم الآلي (Machine Learning) هو فرع من:", options:["الذكاء الاصطناعي","الهندسة المدنية","الطب البشري","الجغرافيا"], correct:0 },
-  { q:"ما المقصود بالبيانات التدريبية (Training Data)؟", options:["البيانات التي يتعلّم منها النظام الذكي","كلمة المرور","اسم المستخدم","نوع الجهاز"], correct:0 },
-  { q:"الشبكات العصبية الاصطناعية (Neural Networks) مستوحاة من:", options:["طريقة عمل الدماغ البشري","حركة الكواكب","الدورة الدموية","طبقات الغلاف الجوي"], correct:0 },
-  { q:"هل الذكاء الاصطناعي يعني بالضرورة أن الآلة تفكر وتشعر كالإنسان؟", options:["لا، هو محاكاة لأنماط بلا شعور حقيقي","نعم دائماً","نعم في كل الحالات","لا علاقة له بالتفكير إطلاقاً"], correct:0 },
-  { q:"من أبرز استخدامات الذكاء الاصطناعي اليوم:", options:["التعرف على الصور والترجمة الآلية","صناعة الورق فقط","الزراعة اليدوية","الطبخ التقليدي"], correct:0 },
-  { q:"من أشهر تطبيقات الذكاء الاصطناعي في الترجمة الفورية:", options:["Google Translate","Photoshop","Excel","Windows Media Player"], correct:0 },
-  { q:"الذكاء الاصطناعي التوليدي (Generative AI) يُستخدم لـ:", options:["توليد نصوص وصور جديدة","حذف الملفات فقط","تسريع الإنترنت فقط","لا شيء مما سبق"], correct:0 },
-  { q:"الروبوتات الذكية تعتمد على:", options:["أجهزة استشعار وبرمجيات ذكاء اصطناعي","الحظ فقط","الكهرباء فقط بدون برمجة","لا شيء"], correct:0 },
-  { q:"من مخاطر الاعتماد الكامل على الذكاء الاصطناعي دون تفكير نقدي:", options:["تصديق معلومات خاطئة دون تحقق","زيادة الذكاء تلقائياً","إلغاء الحاجة للتعلم نهائياً وبأمان","لا توجد مخاطر إطلاقاً"], correct:0 },
-  { q:"الفرق بين الذكاء الاصطناعي الضيق والعام:", options:["الضيق متخصص في مهمة واحدة، والعام يحاكي الذكاء البشري الشامل","لا فرق بينهما","العام أبطأ من الضيق فقط","الضيق أذكى من العام دائماً"], correct:0 }
-]};
-QUESTION_BANK.islamic = { label:"تربية إسلامية", items:[
-  { q:"كم عدد أركان الإسلام؟", options:["خمسة","أربعة","ستة","سبعة"], correct:0 },
-  { q:"ما هو الركن الأول من أركان الإسلام؟", options:["الشهادتان","الصلاة","الزكاة","الصوم"], correct:0 },
-  { q:"في أي شهر هجري فُرض صيام رمضان؟", options:["شهر رمضان","شهر شوال","شهر ذي الحجة","شهر محرم"], correct:0 },
-  { q:"كم عدد الصلوات المفروضة في اليوم والليلة؟", options:["خمس صلوات","ثلاث صلوات","أربع صلوات","ست صلوات"], correct:0 },
-  { q:"ما اسم أول سورة نزلت من القرآن الكريم؟", options:["سورة العلق","سورة الفاتحة","سورة البقرة","سورة الإخلاص"], correct:0 },
-  { q:"الزكاة تجب في المال إذا بلغ:", options:["النصاب وحال عليه الحول","أي مبلغ مهما كان صغيراً","مرة واحدة في العمر فقط","لا تجب أبداً"], correct:0 },
-  { q:"الحج فريضة على كل مسلم مستطيع كم مرة في العمر؟", options:["مرة واحدة","كل عام","مرتين","لا يجب أبداً"], correct:0 },
-  { q:"هل صيام رمضان واجب على كل مسلم بلا أي استثناء؟", options:["لا، هناك أعذار شرعية تبيح الإفطار كالمرض والسفر","نعم لا استثناء أبداً","فقط على الرجال","فقط في بعض الدول"], correct:0 },
-  { q:"من الكتب السماوية المذكورة في القرآن الكريم:", options:["التوراة والإنجيل والزبور والقرآن","التوراة فقط","الإنجيل فقط","لا شيء مما سبق"], correct:0 },
-  { q:"عدد أنبياء أولي العزم من الرسل:", options:["خمسة","ثلاثة","سبعة","عشرة"], correct:0 },
-  { q:"غزوة بدر الكبرى وقعت في السنة الهجرية:", options:["الثانية","الأولى","الخامسة","العاشرة"], correct:0 },
-  { q:"من آداب الإسلام في التعامل مع الوالدين:", options:["البر بهما وخفض الجناح لهما","العقوق","الإهمال","لا شيء مما سبق"], correct:0 },
-  { q:"صلاة الجماعة في المسجد للرجال حكمها:", options:["مؤكدة وفضلها عظيم","محرمة","مكروهة","لا قيمة لها"], correct:0 }
-]};
-QUESTION_BANK.culture = { label:"ثقافة عامة", items:[
-  { q:"ما هو أطول نهر في العالم؟", options:["نهر النيل","نهر الأمازون","نهر الفرات","نهر دجلة"], correct:0 },
-  { q:"كم عدد قارات العالم؟", options:["سبع قارات","خمس قارات","ست قارات","ثمان قارات"], correct:0 },
-  { q:"ما هي عاصمة اليابان؟", options:["طوكيو","بكين","سيول","بانكوك"], correct:0 },
-  { q:"من يُنسب إليه اختراع المصباح الكهربائي؟", options:["توماس إديسون","نيوتن","أينشتاين","جراهام بيل"], correct:0 },
-  { q:"ما أكبر محيط في العالم مساحةً؟", options:["المحيط الهادئ","المحيط الأطلسي","المحيط الهندي","المحيط المتجمد الشمالي"], correct:0 },
-  { q:"أي الكواكب أقرب إلى الشمس؟", options:["عطارد","الزهرة","الأرض","المريخ"], correct:0 },
-  { q:"كم عدد أيام السنة الكبيسة؟", options:["366 يوماً","365 يوماً","364 يوماً","360 يوماً"], correct:0 },
-  { q:"أكبر جزيرة في العالم:", options:["جرينلاند","مدغشقر","بورنيو","أيسلندا"], correct:0 },
-  { q:"اللغة الأكثر انتشاراً في العالم من حيث عدد المتحدثين الأصليين:", options:["الصينية الماندرين","الإنجليزية","الإسبانية","العربية"], correct:0 },
-  { q:"أول رائد فضاء وصل إلى القمر:", options:["نيل أرمسترونج","يوري جاجارين","باز ألدرين","الأمير سلطان"], correct:0 },
-  { q:"أعلى قمة جبلية في العالم:", options:["إفرست","كليمنجارو","الألب","أنديز"], correct:0 },
-  { q:"عدد ألوان قوس قزح:", options:["سبعة","خمسة","ستة","ثمانية"], correct:0 }
-]};
-
-/* سؤال الفخ: يبدو طبيعياً تماماً، لكنه يُحتسب خطأ دائماً أياً كانت الإجابة */
-const TRAP_QUESTIONS = [
-  { q:"أي مما يلي هو العدد الأولي الوحيد الزوجي؟", options:["2","1","4","9"] },
-  { q:"كم عدد أيام شهر فبراير في السنة العادية (غير الكبيسة)؟", options:["28","29","30","31"] },
-  { q:"أي مما يلي ليس من الحواس الخمس التقليدية؟", options:["الحدس","اللمس","السمع","الشم"] },
-  { q:"ما ناتج قسمة أي عدد على صفر؟", options:["غير معرّف رياضياً","صفر","نفس العدد","واحد"] }
-];
-
-const PUNISH_QUESTIONS = [
-  { q:"إذا كانت كل الوردات زهوراً، وبعض الزهور حمراء، فهل كل الورود حمراء بالضرورة؟", options:["لا، غير لازم منطقياً","نعم لازم","لا علاقة","مستحيل تحديدها"] },
-  { q:"ما الرقم التالي: 1, 1, 2, 3, 5, 8, ؟", options:["13","12","11","15"] },
-  { q:"لو أن كل الأشجار خضراء، وهذا الشيء أخضر، فهل هو بالضرورة شجرة؟", options:["لا، ليس بالضرورة","نعم بالتأكيد","نعم أحياناً فقط","لا معنى للسؤال"] },
-  { q:"أي الأرقام لا ينتمي للنمط: 2, 4, 8, 16, 30, 32؟", options:["30","4","16","32"] },
-  { q:"إذا استغرق 5 عمال 5 أيام لإنجاز 5 وحدات عمل، كم يستغرق 100 عامل لإنجاز 100 وحدة؟", options:["5 أيام","100 يوم","20 يوماً","50 يوماً"] }
-];
-
-function realShuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-  return a;
-}
-
-/* توزيع صعوبة تلقائي على أي مصفوفة أسئلة: 60% سهل، 25% متوسط، 15% صعب جداً */
-function tagDifficulty(items){
-  const n = items.length;
-  return items.map((it,idx)=>{
-    let difficulty = 'easy';
-    if(idx >= Math.floor(n*0.6) && idx < Math.floor(n*0.85)) difficulty='medium';
-    else if(idx >= Math.floor(n*0.85)) difficulty='hard';
-    return { ...it, difficulty };
-  });
-}
-
-/* مولّد أسئلة رياضية عشوائي — يعطي عملياً عدداً لا نهائياً من الأسئلة الفريدة
-   بدون تخزين أي بيانات إضافية، فلا يوجد أي تأثير على سرعة أو حجم الصفحة */
-function generateMathQuestion(difficulty){
-  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-  let q, correct, wrongs;
-  if(difficulty === 'easy'){
-    const a=randInt(2,25), b=randInt(2,25);
-    q = `ناتج ${a} + ${b} = ؟`; correct = a+b; wrongs = [correct+1, correct-1, correct+3];
-  } else if(difficulty === 'medium'){
-    const a=randInt(2,15), b=randInt(2,12);
-    q = `ناتج ${a} × ${b} = ؟`; correct = a*b; wrongs = [correct+a, correct-b, correct+2];
-  } else {
-    const start=randInt(1,10), step=randInt(2,7);
-    const seq = [start, start+step, start+2*step, start+3*step];
-    q = `ما الرقم التالي في المتتالية: ${seq.join(', ')}, ؟`;
-    correct = start+4*step; wrongs = [correct+1, correct-step, correct+step];
-  }
-  const optionsRaw = [correct, ...wrongs].map(String);
-  const options = realShuffle(optionsRaw);
-  return { subjectKey:'math-gen', subjectLabel:'رياضيات (توليد ذكي)', question:q, options, correctIndex: options.indexOf(String(correct)), isTrap:false, difficulty };
-}
-
-/* يسحب count سؤال من صعوبة معيّنة من البنك المُنسّق، ويكمل الباقي (لو البنك ما يكفيش)
-   بأسئلة مولّدة تلقائياً — هذا ما يضمن عدم تكرار الامتحان أبداً مهما كان حجم البنك */
-/* تتبّع الأسئلة اللي شافها هذا الجهاز من قبل — لضمان عدم التكرار فعلياً */
-const SEEN_QUESTIONS_KEY = 'quiz_seen_questions_v1';
-function getSeenSet(){
-  try{ return new Set(JSON.parse(localStorage.getItem(SEEN_QUESTIONS_KEY) || '[]')); }catch(e){ return new Set(); }
-}
-function markQuestionsSeen(questionTexts){
-  const seen = Array.from(getSeenSet());
-  const merged = [...seen, ...questionTexts];
-  localStorage.setItem(SEEN_QUESTIONS_KEY, JSON.stringify(merged.slice(-500)));
-}
-
-function pickByDifficulty(pool, difficulty, count, seenSet){
-  const candidates = pool.filter(p=>p.difficulty===difficulty);
-  /* الأولوية المطلقة للأسئلة اللي الجهاز ده لسه ما شافهاش أبداً */
-  const unseen = realShuffle(candidates.filter(c=>!seenSet.has(c.question)));
-  const picked = unseen.slice(0,count).map(item=>{
-    const correctText = item.options[item.correct];
-    const shuffledOptions = realShuffle(item.options);
-    return { subjectKey:item.subjectKey, subjectLabel:item.subjectLabel, question:item.question, options:shuffledOptions, correctIndex: shuffledOptions.indexOf(correctText), isTrap:false, difficulty };
-  });
-  /* لو البنك الثابت لهذه الصعوبة خلص كله، نكمل الباقي بأسئلة مولّدة تلقائياً (لا نهائية)
-     بدل ما نعيد سؤال شافه الطالب قبل كده */
-  while(picked.length < count){ picked.push(generateMathQuestion(difficulty === 'trap' ? 'hard' : difficulty)); }
-  return picked;
-}
-
-function buildRandomQuiz(){
-  let pool = [];
-  Object.keys(QUESTION_BANK).forEach(key=>{
-    const subject = QUESTION_BANK[key];
-    tagDifficulty(subject.items).forEach(item=>{
-      pool.push({ subjectKey:key, subjectLabel:subject.label, question:item.q, options:item.options, correct:item.correct, difficulty:item.difficulty });
-    });
-  });
-
-  const seenSet = getSeenSet();
-  /* نسبة ثابتة لكل امتحان: 17 سهل + 8 متوسط + 4 صعب جداً + سؤال فخ واحد = 30 */
-  let quiz = [
-    ...pickByDifficulty(pool, 'easy', 17, seenSet),
-    ...pickByDifficulty(pool, 'medium', 8, seenSet),
-    ...pickByDifficulty(pool, 'hard', 4, seenSet)
-  ];
-  const trapPick = TRAP_QUESTIONS[Math.floor(Math.random()*TRAP_QUESTIONS.length)];
-  const trapOptions = realShuffle(trapPick.options);
-  quiz.push({ subjectKey:'science', subjectLabel:'ذكاء ومنطق', question:trapPick.q, options:trapOptions, correctIndex:-1, isTrap:true, difficulty:'trap' });
-
-  quiz = realShuffle(quiz);
-  /* نسجّل كل الأسئلة الثابتة (غير المولّدة والفخ) كمرئية على هذا الجهاز */
-  markQuestionsSeen(quiz.filter(q=>!q.isTrap && q.subjectKey!=='math-gen').map(q=>q.question));
-  return quiz;
-}
-
-/* ==================================================================
-   6) حالة التطبيق والتنقل بين الشاشات
-   ================================================================== */
-const screens = {
-  welcome: document.getElementById('screen-welcome'), quiz: document.getElementById('screen-quiz'),
-  result: document.getElementById('screen-result'), history: document.getElementById('screen-history'),
-  flashcards: document.getElementById('screen-flashcards'),
-  admin: document.getElementById('screen-admin'), punish: document.getElementById('screen-punish')
-};
-function showScreen(name){ Object.values(screens).forEach(s=>s.classList.remove('active')); screens[name].classList.add('active'); }
-
-let state = { name:"", quiz:[], currentIndex:0, selectedOptionIndex:null, score:0, subjectScores:{}, timerInterval:null, timeLeft:EXAM_SECONDS, tabSwitchCount:0, flagged:false, finished:false, startedAt:0, fp:'' };
-
-function startCountdown(){
-  const el = document.getElementById('countdown-timer');
-  function tick(){
-    const remain = periodEndTime(currentPeriodId()) - Date.now();
-    if(remain <= 0){ location.reload(); return; }
-    const h=Math.floor(remain/3600000), m=Math.floor((remain%3600000)/60000), s=Math.floor((remain%60000)/1000);
-    el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  }
-  tick(); setInterval(tick, 1000);
-}
-
-/* ==================================================================
-   7) شاشة الترحيب: التحقق من الاسم + البصمة + الحظر + القفل + الشخصية المنتظرة
-   ================================================================== */
-const nameInput = document.getElementById('student-name');
-const nameError = document.getElementById('name-error');
-const startBtn = document.getElementById('start-btn');
-const entryCard = document.getElementById('entry-card');
-const lockedCard = document.getElementById('locked-card');
-const bannedCard = document.getElementById('banned-card');
-const eggOverlay = document.getElementById('egg-overlay');
-
-document.getElementById('egg-ack-btn').addEventListener('click', ()=>{ eggOverlay.classList.remove('active'); proceedToStart(); });
-document.getElementById('egg-copy-btn').addEventListener('click', ()=>{
-  const txt = document.getElementById('egg-message').textContent;
-  if(navigator.clipboard) navigator.clipboard.writeText(txt).catch(()=>{});
-  const btn = document.getElementById('egg-copy-btn');
-  const original = btn.textContent; btn.textContent = '✅ اتنسخت!';
-  setTimeout(()=> btn.textContent = original, 1500);
-});
-
-startBtn.addEventListener('click', async ()=>{
-  const check = validateStudentName(nameInput.value);
-  if(!check.ok){ nameError.textContent = check.msg; nameError.classList.remove('hidden'); nameInput.classList.add('border-[var(--rose)]'); return; }
-  nameError.classList.add('hidden'); nameInput.classList.remove('border-[var(--rose)]');
-
-  if(isSpecialPerson(check.value)){
-    state.pendingName = check.value;
-    document.getElementById('egg-message').textContent = `أنا ${check.value}، خلّصت امتحان النهاردة في "الحلبة المعرفية" 🎉 هبعتلك درجتي بعد ما أخلّص!`;
-    eggOverlay.classList.add('active');
-    return;
-  }
-  state.pendingName = check.value;
-  await proceedToStart();
-});
-
-async function proceedToStart(){
-  const val = state.pendingName;
-  const fp = getDeviceFingerprint();
-  state.fp = fp;
-
-  startBtn.disabled = true; startBtn.textContent = 'جارِ التحقق...';
-  const data = await jsonbinGetData();
-  startBtn.disabled = false; startBtn.textContent = 'ابدأ التحدي الآن 🚀';
-
-  if(data.banned.some(b=>b.Fingerprint===fp)){ showBanned(); return; }
-  if(containsBadWord(val)){ startPunishMode(); return; }
-
-  const period = currentPeriodId();
-  const localMatch = localFindPeriodAttempt(fp, period);
-  const remoteMatch = data.attempts.find(a => a.Fingerprint===fp && a.Period===period);
-  if(localMatch || remoteMatch){
-    const m = localMatch || { name: remoteMatch.Name, score: remoteMatch.Score, total: remoteMatch.Total };
-    showLocked(m); return;
-  }
-
-  state.name = val;
-  startQuiz();
-}
-
-function showLocked(attempt){
-  entryCard.classList.add('hidden'); lockedCard.classList.remove('hidden');
-  const remain = periodEndTime(currentPeriodId()) - Date.now();
-  const h=Math.floor(remain/3600000), m=Math.floor((remain%3600000)/60000);
-  document.getElementById('locked-message').textContent = `لقد استخدمت محاولتك لهذه الجولة بالفعل يا ${attempt.name}، ودرجتك كانت (${attempt.score} من ${attempt.total||TOTAL_QUESTIONS})! الجولة القادمة تبدأ بعد ${h} ساعة و${m} دقيقة.`;
-}
-function showBanned(){ entryCard.classList.add('hidden'); bannedCard.classList.remove('hidden'); }
-document.getElementById('locked-back-btn').addEventListener('click', ()=>{ lockedCard.classList.add('hidden'); entryCard.classList.remove('hidden'); nameInput.value=''; });
-
-/* لوحة الصدارة */
-let lbMode = 'today';
-document.getElementById('lb-tab-today').addEventListener('click', ()=>{ lbMode='today'; setLbTabs(); loadLeaderboard(); });
-document.getElementById('lb-tab-all').addEventListener('click', ()=>{ lbMode='all'; setLbTabs(); loadLeaderboard(); });
-function setLbTabs(){
-  document.getElementById('lb-tab-today').classList.toggle('active', lbMode==='today');
-  document.getElementById('lb-tab-all').classList.toggle('active', lbMode==='all');
-}
-function setLbStatus(txt){ const el=document.getElementById('lb-status'); if(el) el.textContent = txt; }
-function fmtDuration(sec){ const m=Math.floor(sec/60), s=sec%60; return `${m}:${String(s).padStart(2,'0')}`; }
-
-function renderLeaderboard(list){
-  const container = document.getElementById('leaderboard-list');
-  const empty = document.getElementById('leaderboard-empty');
-  container.innerHTML = '';
-  if(!list.length){ empty.classList.remove('hidden'); return; }
-  empty.classList.add('hidden');
-  list.forEach((item, idx)=>{
-    const row = document.createElement('div');
-    row.className = 'lb-row bg-white/5 rounded-lg px-3 py-2 text-sm';
-    const medal = idx===0 ? '🥇' : idx===1 ? '🥈' : idx===2 ? '🥉' : `${idx+1}`;
-    const flaggedTag = item.Flagged ? ' <span class="text-[var(--rose)] text-[10px]">(مُلغى)</span>' : '';
-    row.innerHTML = `<span class="flex items-center gap-2"><span class="w-6 text-center">${medal}</span><span class="font-semibold">${item.Name}</span>${flaggedTag}</span>
-      <span class="text-[var(--gold)] font-display text-xs">${item.Score}/${item.Total} • ⏱️${fmtDuration(item.DurationSeconds||0)}</span>`;
-    container.appendChild(row);
-  });
-}
-async function loadLeaderboard(){
-  setLbStatus(jsonbinConfigured() ? '' : 'قاعدة البيانات غير مُعدة بعد');
-  const period = currentPeriodId();
-  const data = await jsonbinGetData();
-  let rows = lbMode==='today' ? data.attempts.filter(r=>r.Period===period) : data.attempts.slice();
-  rows.sort((a,b)=> (b.Score - a.Score) || ((a.DurationSeconds||0) - (b.DurationSeconds||0)));
-  renderLeaderboard(rows);
-  const clean = rows.filter(r=>!r.Flagged);
-  if(clean.length){
-    document.getElementById('top-scorer-name').textContent = clean[0].Name;
-    document.getElementById('top-scorer-score').textContent = `${clean[0].Score} / ${clean[0].Total} نقطة`;
-    document.getElementById('top-scorer-banner').classList.remove('hidden');
-  } else { document.getElementById('top-scorer-banner').classList.add('hidden'); }
-}
-
-/* ==================================================================
-   8) منطق الاختبار
-   ================================================================== */
-const questionText = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const nextBtn = document.getElementById('next-btn');
-const qIndexEl = document.getElementById('q-index');
-const progressFill = document.getElementById('progress-fill');
-const subjectChip = document.getElementById('quiz-subject-chip');
-const timerEl = document.getElementById('quiz-timer');
-
-function startQuiz(){
-  state.quiz = buildRandomQuiz();
-  state.currentIndex=0; state.selectedOptionIndex=null; state.score=0; state.subjectScores={};
-  state.tabSwitchCount=0; state.flagged=false; state.finished=false; state.timeLeft=EXAM_SECONDS; state.startedAt=Date.now();
-  showScreen('quiz'); renderQuestion(); startTimer();
-}
-function renderQuestion(){
-  const item = state.quiz[state.currentIndex];
-  questionText.textContent = item.question;
-  subjectChip.textContent = item.subjectLabel;
-  qIndexEl.textContent = state.currentIndex+1;
-  progressFill.style.width = `${((state.currentIndex)/TOTAL_QUESTIONS)*100 + 3}%`;
-  optionsContainer.innerHTML = '';
-  item.options.forEach((opt, idx)=>{
-    const btn = document.createElement('button');
-    btn.type='button'; btn.className='option-btn text-right rounded-xl px-4 py-3.5 bg-white/5'; btn.textContent = opt;
-    btn.addEventListener('click', ()=> selectOption(idx));
-    optionsContainer.appendChild(btn);
-  });
-  state.selectedOptionIndex = null; nextBtn.disabled = true;
-}
-function selectOption(idx){
-  if(state.selectedOptionIndex !== null) return;
-  state.selectedOptionIndex = idx;
-  const item = state.quiz[state.currentIndex];
-  [...optionsContainer.children].forEach((b,i)=>{
-    b.classList.remove('option-correct','option-wrong');
-    if(!item.isTrap && i === item.correctIndex) b.classList.add('option-correct');
-    else if(i === idx) b.classList.add('option-wrong');
-  });
-  if(!item.isTrap && idx === item.correctIndex){ state.score++; state.subjectScores[item.subjectKey] = (state.subjectScores[item.subjectKey]||0)+1; }
-  nextBtn.disabled = false;
-}
-nextBtn.addEventListener('click', ()=>{
-  if(state.currentIndex < state.quiz.length-1){ state.currentIndex++; renderQuestion(); } else { finishQuiz(false); }
-});
-function startTimer(){
-  clearInterval(state.timerInterval); updateTimerDisplay();
-  state.timerInterval = setInterval(()=>{ state.timeLeft--; updateTimerDisplay(); if(state.timeLeft<=0){ clearInterval(state.timerInterval); finishQuiz(false); } },1000);
-}
-function updateTimerDisplay(){
-  const m=Math.floor(state.timeLeft/60).toString().padStart(2,'0'), s=(state.timeLeft%60).toString().padStart(2,'0');
-  timerEl.textContent = `${m}:${s}`;
-  if(state.timeLeft<=60) timerEl.classList.add('text-[var(--rose)]');
-}
-/* ==================================================================
-   16) نظام التفاعل: الستريك + الشارات + نصيحة اليوم
-   ================================================================== */
-const DAILY_TIPS = [
-  "قسّم مذاكرتك لفترات 25 دقيقة مع استراحة 5 دقائق (تقنية بومودورو) — بتزوّد التركيز.",
-  "اكتب اللي فهمته بكلامك انت بعد كل درس — ده بيثبّت المعلومة أكتر من القراءة بس.",
-  "راجع أسئلة المواد اللي بتصعب عليك أول بأول، متأجلش المراجعة لآخر لحظة.",
-  "النوم الكويس قبل الامتحان بيفرق في التركيز أكتر من ساعة مذاكرة زيادة وانت تعبان.",
-  "جرّب تشرح المعلومة لحد تاني (حتى لو خيالي) — لو قدرت تشرحها يبقى فهمتها فعلاً.",
-  "خد بريك حقيقي بعيد عن الموبايل كل ساعة مذاكرة — مخّك محتاج يريّح.",
-  "ابدأ بالمواد الصعبة وانت لسه نشيط، وسيب السهلة لآخر اليوم.",
-  "اكتب ملخص صفحة واحدة لكل درس — بيوفر عليك وقت المراجعة النهائية جداً."
-];
-function getDailyTip(){
-  const dayIndex = Math.floor(Date.now() / (24*60*60*1000));
-  return DAILY_TIPS[dayIndex % DAILY_TIPS.length];
-}
-
-const STREAK_KEY = 'quiz_streak_v1';
-function getStreakData(){
-  try{ return JSON.parse(localStorage.getItem(STREAK_KEY)) || { lastDate:null, count:0 }; }catch(e){ return { lastDate:null, count:0 }; }
-}
-function updateStreakOnAttempt(){
-  const today = todayCalendarStr();
-  const data = getStreakData();
-  if(data.lastDate === today) return data.count; /* حل بالفعل النهاردة */
-  const yesterday = todayCalendarStr(-1);
-  data.count = (data.lastDate === yesterday) ? data.count + 1 : 1;
-  data.lastDate = today;
-  localStorage.setItem(STREAK_KEY, JSON.stringify(data));
-  return data.count;
-}
-function todayCalendarStr(offsetDays=0){
-  const d = new Date(Date.now() + offsetDays*24*60*60*1000);
-  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-}
-
-const BADGES_KEY = 'quiz_badges_v1';
-const BADGE_DEFS = [
-  { id:'first', icon:'🥉', label:'أول تحدي', check:(ctx)=> ctx.totalAttempts >= 1 },
-  { id:'streak3', icon:'🔥', label:'3 أيام متتالية', check:(ctx)=> ctx.streak >= 3 },
-  { id:'streak7', icon:'⚡', label:'أسبوع كامل', check:(ctx)=> ctx.streak >= 7 },
-  { id:'high90', icon:'🏆', label:'90%+ في امتحان', check:(ctx)=> ctx.lastPct >= 90 }
-];
-function getEarnedBadges(){ try{ return JSON.parse(localStorage.getItem(BADGES_KEY)||'[]'); }catch(e){ return []; } }
-function updateBadges(ctx){
-  const earned = new Set(getEarnedBadges());
-  BADGE_DEFS.forEach(b=>{ if(b.check(ctx)) earned.add(b.id); });
-  localStorage.setItem(BADGES_KEY, JSON.stringify([...earned]));
-  return [...earned];
-}
-function renderEngagementWidgets(){
-  document.getElementById('daily-tip').textContent = getDailyTip();
-  document.getElementById('streak-count').textContent = getStreakData().count;
-  const earned = getEarnedBadges();
-  const row = document.getElementById('badges-row');
-  row.innerHTML = '';
-  earned.forEach(id=>{
-    const def = BADGE_DEFS.find(b=>b.id===id);
-    if(!def) return;
-    const span = document.createElement('span');
-    span.className = 'text-lg'; span.title = def.label; span.textContent = def.icon;
-    row.appendChild(span);
-  });
-}
-
-async function finishQuiz(wasFlagged){
-  if(state.finished) return;
-  state.finished = true; clearInterval(state.timerInterval);
-  state.flagged = wasFlagged || state.flagged;
-  const durationSeconds = Math.min(EXAM_SECONDS, Math.round((Date.now()-state.startedAt)/1000));
-  const period = currentPeriodId();
-
-  showScreen('result');
-  document.getElementById('result-name').textContent = state.name;
-  document.getElementById('result-score').textContent = state.score;
-  document.getElementById('result-duration').textContent = fmtDuration(durationSeconds);
-
-  const pct = Math.round((state.score/TOTAL_QUESTIONS)*100);
-  let msg="أداء رائع، واصل التميز!", emoji="🎉";
-  if(state.flagged){ msg="تم إنهاء المحاولة تلقائياً بسبب مغادرة الصفحة أثناء الاختبار."; emoji="🚫"; }
-  else if(pct>=90){ msg="أداء خرافي! أنت في طليعة المتنافسين 🔥"; emoji="🏆"; }
-  else if(pct>=70){ msg="أداء قوي ومميز، استمر بهذا المستوى!"; emoji="🎉"; }
-  else if(pct>=50){ msg="بداية جيدة، ذاكر أكثر وستتصدر المنافسة!"; emoji="💪"; }
-  else { msg="لا بأس، هذه فرصة للمراجعة والمحاولة مجدداً في الجولة القادمة!"; emoji="📘"; }
-  document.getElementById('result-sub').textContent = msg;
-  document.getElementById('result-emoji').textContent = emoji;
-
-  const location = await getApproxLocation();
-  const attemptData = {
-    Name: state.name, Fingerprint: state.fp, Score: state.score, Total: TOTAL_QUESTIONS, Period: period,
-    DurationSeconds: durationSeconds, Flagged: state.flagged, TabSwitchCount: state.tabSwitchCount,
-    SubjectScores: state.subjectScores, Location: location, Timestamp: new Date().toISOString()
-  };
-  await addAttemptRemote(attemptData);
-  localAddLog({ name: state.name, fp: state.fp, period, score: state.score, total: TOTAL_QUESTIONS });
-  const newStreak = updateStreakOnAttempt();
-  const totalAttemptsSoFar = localGetLog().length;
-  updateBadges({ totalAttempts: totalAttemptsSoFar, streak: newStreak, lastPct: pct });
-  renderEngagementWidgets();
-  loadLeaderboard();
-}
-document.getElementById('restart-btn').addEventListener('click', ()=>{ nameInput.value=''; showScreen('welcome'); loadLeaderboard(); });
-
-/* ==================================================================
-   9) وضع العقاب
-   ================================================================== */
-let punishIndex = 0;
-function startPunishMode(){ showScreen('punish'); punishIndex = 0; document.getElementById('punish-total').textContent = PUNISH_QUESTIONS.length; renderPunishQuestion(); }
-function renderPunishQuestion(){
-  const item = PUNISH_QUESTIONS[punishIndex];
-  document.getElementById('punish-index').textContent = punishIndex+1;
-  document.getElementById('punish-question').textContent = item.q;
-  const container = document.getElementById('punish-options');
-  container.innerHTML = '';
-  item.options.forEach(opt=>{
-    const btn = document.createElement('button');
-    btn.type='button'; btn.className='option-btn text-right rounded-xl px-4 py-3.5 bg-white/5'; btn.textContent = opt;
-    btn.addEventListener('click', ()=>{
-      [...container.children].forEach(b=>b.classList.remove('option-wrong'));
-      btn.classList.add('option-wrong');
-      setTimeout(()=>{ punishIndex++; if(punishIndex < PUNISH_QUESTIONS.length){ renderPunishQuestion(); } else { finalizeBan(); } }, 700);
-    });
-    container.appendChild(btn);
-  });
-}
-async function finalizeBan(){
-  await addBannedRemote({ Fingerprint: getDeviceFingerprint(), Name: nameInput.value.trim(), Timestamp: new Date().toISOString() });
-  showScreen('welcome'); entryCard.classList.add('hidden'); showBanned();
-}
-
-/* ==================================================================
-   17) وضع المراجعة الحرة (Flashcards) — بدون وقت أو تسجيل نتيجة
-   ================================================================== */
-let fcDeck = []; let fcIndex = 0; let fcRevealed = false;
-
-function populateFcSubjectSelect(){
-  const sel = document.getElementById('fc-subject-select');
-  Object.keys(QUESTION_BANK).forEach(key=>{
-    const opt = document.createElement('option');
-    opt.value = key; opt.textContent = QUESTION_BANK[key].label;
-    sel.appendChild(opt);
-  });
-}
-function buildFcDeck(subjectKey){
-  let deck = [];
-  Object.keys(QUESTION_BANK).forEach(key=>{
-    if(subjectKey !== 'all' && key !== subjectKey) return;
-    QUESTION_BANK[key].items.forEach(item=>{
-      deck.push({ subjectLabel: QUESTION_BANK[key].label, question:item.q, answer:item.options[item.correct] });
-    });
-  });
-  return realShuffle(deck);
-}
-function renderFcCard(){
-  if(!fcDeck.length) return;
-  const item = fcDeck[fcIndex];
-  document.getElementById('fc-subject-chip').textContent = item.subjectLabel;
-  document.getElementById('fc-question').textContent = item.question;
-  document.getElementById('fc-answer').textContent = '✅ ' + item.answer;
-  document.getElementById('fc-answer').classList.add('hidden');
-  document.getElementById('fc-hint').classList.remove('hidden');
-  document.getElementById('fc-index').textContent = fcIndex + 1;
-  document.getElementById('fc-total').textContent = fcDeck.length;
-  fcRevealed = false;
-}
-document.getElementById('fc-card').addEventListener('click', ()=>{
-  fcRevealed = !fcRevealed;
-  document.getElementById('fc-answer').classList.toggle('hidden', !fcRevealed);
-  document.getElementById('fc-hint').classList.toggle('hidden', fcRevealed);
-});
-document.getElementById('fc-next-btn').addEventListener('click', ()=>{
-  fcIndex = (fcIndex + 1) % fcDeck.length; renderFcCard();
-});
-document.getElementById('fc-prev-btn').addEventListener('click', ()=>{
-  fcIndex = (fcIndex - 1 + fcDeck.length) % fcDeck.length; renderFcCard();
-});
-document.getElementById('fc-subject-select').addEventListener('change', (e)=>{
-  fcDeck = buildFcDeck(e.target.value); fcIndex = 0; renderFcCard();
-});
-document.getElementById('flashcards-btn').addEventListener('click', ()=>{
-  showScreen('flashcards');
-  fcDeck = buildFcDeck(document.getElementById('fc-subject-select').value || 'all');
-  fcIndex = 0; renderFcCard();
-});
-document.getElementById('fc-back-btn').addEventListener('click', ()=> showScreen('welcome'));
-
-/* ==================================================================
-   18) سجل درجات الطالب
-   ================================================================== */
-document.getElementById('history-btn').addEventListener('click', ()=>{ showScreen('history'); document.getElementById('history-name-input').value = nameInput.value || ''; });
-document.getElementById('history-back-btn').addEventListener('click', ()=> showScreen('welcome'));
-document.getElementById('history-search-btn').addEventListener('click', async ()=>{
-  const name = document.getElementById('history-name-input').value.trim();
-  const list = document.getElementById('history-list'); const empty = document.getElementById('history-empty');
-  list.innerHTML = ''; if(!name) return;
-  const key = normalizeName(name);
-  const data = await jsonbinGetData();
-  const mine = data.attempts.filter(r => normalizeName(r.Name||'') === key).sort((a,b)=> b.Period - a.Period);
-  if(!mine.length){ empty.classList.remove('hidden'); return; }
-  empty.classList.add('hidden');
-  mine.forEach(r=>{
-    const div = document.createElement('div'); div.className='lb-row bg-white/5 rounded-lg px-3 py-2 text-sm';
-    div.innerHTML = `<span>جولة #${r.Period}</span><span class="text-[var(--gold)] font-display">${r.Score}/${r.Total}</span>`;
-    list.appendChild(div);
-  });
-});
-
-/* ==================================================================
-   11) نظام مكافحة الغش
-   ================================================================== */
-document.addEventListener('contextmenu', e=> e.preventDefault());
-document.addEventListener('selectstart', e=>{ if(e.target && (e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')) return; e.preventDefault(); });
-document.addEventListener('copy', e=> e.preventDefault());
-document.addEventListener('cut', e=> e.preventDefault());
-window.print = function(){ return false; };
-document.addEventListener('keydown', (e)=>{
-  const blocked = (e.ctrlKey && ['p','s','c','u'].includes(e.key.toLowerCase())) || (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase())) || e.key==='F12' || e.key==='PrintScreen';
-  if(blocked){ e.preventDefault(); if(e.key==='PrintScreen'){ if(navigator.clipboard) navigator.clipboard.writeText('').catch(()=>{}); triggerCheatWarning('حاولت أخذ لقطة شاشة! تم رصد المحاولة.'); } }
-});
-let cheatOverlayShown = false;
-const cheatOverlay = document.getElementById('cheat-overlay');
-const cheatMessage = document.getElementById('cheat-message');
-document.getElementById('cheat-ack-btn').addEventListener('click', ()=>{ cheatOverlay.classList.remove('active'); cheatOverlayShown=false; });
-function triggerCheatWarning(customMsg){
-  if(!screens.quiz.classList.contains('active')) return; if(state.finished) return;
-  state.tabSwitchCount++;
-  if(state.tabSwitchCount>=2){
-    cheatMessage.textContent='تم رصد مغادرة متكررة للصفحة أثناء الاختبار. جارٍ إنهاء المحاولة وإرسال نتيجتك الحالية فوراً.';
-    cheatOverlay.classList.add('active');
-    setTimeout(()=>{ cheatOverlay.classList.remove('active'); finishQuiz(true); }, 2200);
-    return;
-  }
-  if(!cheatOverlayShown){ cheatOverlayShown=true; cheatMessage.textContent = customMsg || 'لاحظنا أنك غادرت شاشة الاختبار. الخروج مرة أخرى سيؤدي لإنهاء المحاولة تلقائياً وإرسال نتيجتك الحالية.'; cheatOverlay.classList.add('active'); }
-}
-document.addEventListener('visibilitychange', ()=>{ if(document.hidden) triggerCheatWarning(); });
-window.addEventListener('blur', ()=>{ if(!document.hidden) triggerCheatWarning(); });
-
-/* ==================================================================
-   12) لوحة الآدمن المخفية — ?admin=1234
-   ================================================================== */
-async function initAdminIfNeeded(){
-  const params = new URLSearchParams(window.location.search);
-  if(params.get('admin') === ADMIN_SECRET){ showScreen('admin'); await loadAdminTable(); document.getElementById('admin-refresh').addEventListener('click', loadAdminTable); return true; }
-  return false;
-}
-async function adminBanFingerprint(fp, name){
-  if(!confirm(`متأكد إنك عايز تحظر جهاز "${name}"؟`)) return;
-  const data = await jsonbinGetData();
-  if(!data.banned.some(b=>b.Fingerprint===fp)) data.banned.push({ Fingerprint: fp, Name: name, Timestamp: new Date().toISOString() });
-  await jsonbinSaveData(data);
-  loadAdminTable();
-}
-async function adminUnbanFingerprint(fp){
-  if(!confirm('متأكد إنك عايز تفك الحظر عن الجهاز ده؟')) return;
-  const data = await jsonbinGetData();
-  data.banned = data.banned.filter(b=>b.Fingerprint!==fp);
-  await jsonbinSaveData(data);
-  loadAdminTable();
-}
-async function adminDeleteAttempt(index){
-  if(!confirm('متأكد إنك عايز تحذف المحاولة دي نهائياً؟')) return;
-  const data = await jsonbinGetData();
-  const sorted = data.attempts.slice().sort((a,b)=> b.Period - a.Period || b.Score - a.Score);
-  const target = sorted[index];
-  data.attempts = data.attempts.filter(a => a.Timestamp !== target.Timestamp || a.Fingerprint !== target.Fingerprint);
-  await jsonbinSaveData(data);
-  loadAdminTable();
-}
-
-async function loadAdminTable(){
-  const tbody = document.getElementById('admin-table-body'); const emptyMsg = document.getElementById('admin-empty');
-  const bannedBody = document.getElementById('banned-table-body');
-  tbody.innerHTML=''; bannedBody.innerHTML='';
-  const data = await jsonbinGetData();
-  const rows = data.attempts.slice().sort((a,b)=> b.Period - a.Period || b.Score - a.Score);
-  if(!rows.length){ emptyMsg.classList.remove('hidden'); } else {
-    emptyMsg.classList.add('hidden'); let i=1;
-    rows.forEach((d,idx)=>{
-      const statusBadge = d.Flagged ? `<span class="text-[var(--rose)]">مُلغى</span>` : `<span class="text-[var(--emerald)]">مكتمل</span>`;
-      const isBanned = data.banned.some(b=>b.Fingerprint===d.Fingerprint);
-      const tr = document.createElement('tr'); tr.className='border-t border-white/5';
-      tr.innerHTML = `<td class="p-3 text-[var(--muted)]">${i++}</td><td class="p-3 font-semibold">${d.Name||'—'}</td><td class="p-3">${d.Score}/${d.Total}</td><td class="p-3 text-[var(--muted)] text-xs">${d.Location||'—'}</td><td class="p-3 text-[var(--muted)] text-xs">#${d.Period}</td><td class="p-3 text-[var(--muted)] text-xs">${fmtDuration(d.DurationSeconds||0)}</td><td class="p-3 text-xs">${statusBadge}</td>
-        <td class="p-3 text-xs whitespace-nowrap">
-          <button class="admin-ban-btn text-[var(--rose)] underline ml-2" ${isBanned?'disabled':''}>${isBanned?'محظور':'حظر'}</button>
-          <button class="admin-del-btn text-[var(--muted)] underline">حذف</button>
-        </td>`;
-      tr.querySelector('.admin-ban-btn').addEventListener('click', ()=> adminBanFingerprint(d.Fingerprint, d.Name));
-      tr.querySelector('.admin-del-btn').addEventListener('click', ()=> adminDeleteAttempt(idx));
-      tbody.appendChild(tr);
-    });
-  }
-  data.banned.forEach((b,i)=>{
-    const tr = document.createElement('tr'); tr.className='border-t border-white/5';
-    tr.innerHTML = `<td class="p-3 text-[var(--muted)]">${i+1}</td><td class="p-3 font-semibold text-[var(--rose)]">${b.Name||'—'}</td><td class="p-3 text-[var(--muted)] text-xs">${b.Timestamp?new Date(b.Timestamp).toLocaleString('ar-EG'):'—'}</td>
-      <td class="p-3 text-xs"><button class="admin-unban-btn text-[var(--emerald)] underline">فك الحظر</button></td>`;
-    tr.querySelector('.admin-unban-btn').addEventListener('click', ()=> adminUnbanFingerprint(b.Fingerprint));
-    bannedBody.appendChild(tr);
-  });
-}
-
-/* ==================================================================
-   14) تحويل الموقع لتطبيق (PWA)
-   ================================================================== */
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
-}
-let deferredInstallPrompt = null;
-window.addEventListener('beforeinstallprompt', (e)=>{
-  e.preventDefault();
-  deferredInstallPrompt = e;
-  document.getElementById('pwa-install-btn').classList.remove('hidden');
-});
-document.getElementById('pwa-install-btn').addEventListener('click', async ()=>{
-  if(!deferredInstallPrompt) return;
-  deferredInstallPrompt.prompt();
-  await deferredInstallPrompt.userChoice;
-  deferredInstallPrompt = null;
-  document.getElementById('pwa-install-btn').classList.add('hidden');
-});
-window.addEventListener('appinstalled', ()=>{ document.getElementById('pwa-install-btn').classList.add('hidden'); });
-
-/* ==================================================================
-   15) بدء التشغيل
-   ================================================================== */
-(async function init(){
-  const isAdmin = await initAdminIfNeeded();
-  if(!isAdmin){
-    applyRandomTheme();
-    showScreen('welcome'); setLbTabs(); startCountdown(); renderEngagementWidgets(); populateFcSubjectSelect();
-    const fp = getDeviceFingerprint();
-    const data = await jsonbinGetData();
-    if(data.banned.some(b=>b.Fingerprint===fp)){ entryCard.classList.add('hidden'); showBanned(); }
-    loadLeaderboard();
-  }
-})();
-</script>
-</body>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Marwan Dev · مروان أحمد حسن</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>
